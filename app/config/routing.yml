@@ -1,3 +1,3 @@
-app:
-    resource: '@AppBundle/Controller/'
-    type: annotation
+fc_reservation:
+    resource: "@FCReservationBundle/Resources/config/routing.yml"
+    prefix:   /
