@@ -10,6 +10,8 @@ class ReserveController extends Controller {
         $content = 
             $this->get('templating')->render('FCReservationBundle:Reserve:index.html.twig');
         
+        // ajout un test github
+        
         return new Response($content);
     }
 }
