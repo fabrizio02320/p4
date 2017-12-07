@@ -1,13 +1,44 @@
-<!DOCTYPE html>
-<html>
-   <head>
-       <title>Bienvenue sur ma page d'accueil !</title>
-   </head>
-   <body>
-       <h1>Hello World !</h1>
-       
-       <p>
-           Message de bienvenue pour vérifier que l'installation Symfony + bundle Reservation sont ok.
-       </p>
-   </body>
-</html>
+{% extends "FCReservationBundle::layout.html.twig" %}
+
+{% block stylesheets %}
+{% endblock %}
+
+{% block title %}{{ parent() }} - Index{% endblock %}
+
+{% block body %}
+    <h1>Page de réservation - Étape 1/3</h1>
+    
+    <p>
+        Mise en place d'un layout et d'un templates fils.
+    </p>
+    
+    <h2>1 - Choisissez votre date</h2>
+    {# Calendrier en JavaScript #}
+    <div id="choix_date"></div>    
+    
+    
+    <h2>2 - Choisissez votre type de billet</h2>
+    {# Choix du type de billet #}    
+    <div id="choix_type_billet">
+        
+    </div>
+    
+    <h2>3 - Choisissez le nombre de billet désiré</h2>
+    {# choix du nombre de billet en fonction du nombre de billet déjà acheté sur la journée #}
+    <div id="choix_nb_billet">
+        
+    </div>
+    
+    <h2>4 - Saisissez les informations des visiteurs pour chaque billet</h2>
+    {# Affiche les informations à saisir pour chaque billet #}
+    <div id="infos_billet">
+        
+    </div>
+    
+    <h2>5 - Paiement de votre commande</h2>
+    {# Affiche un bouton continuer pour le paiement de la commande #}
+    <div id="btn_cmd">
+        
+    </div>
+    
+{% endblock %}
