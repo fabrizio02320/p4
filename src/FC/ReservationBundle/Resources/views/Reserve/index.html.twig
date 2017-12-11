@@ -1,6 +1,9 @@
 {% extends "FCReservationBundle::layout.html.twig" %}
 
-{% block stylesheets %}
+{% block scriptHead %}
+    <link rel="stylesheet" href="../assets/css/jquery-ui.css">
+    <script src="../assets/js/jquery.js"></script>
+    <script src="../assets/js/jquery-ui.js"></script>
 {% endblock %}
 
 {% block title %}{{ parent() }} - Index{% endblock %}
@@ -14,31 +17,33 @@
     
     <h2>1 - Choisissez votre date</h2>
     {# Calendrier en JavaScript #}
-    <div id="choix_date"></div>    
-    
+    <div id="choixDate"></div>
+    <div id="affiche"></div>
     
     <h2>2 - Choisissez votre type de billet</h2>
     {# Choix du type de billet #}    
-    <div id="choix_type_billet">
+    <div id="choixTypeBillet">
         
     </div>
     
     <h2>3 - Choisissez le nombre de billet désiré</h2>
     {# choix du nombre de billet en fonction du nombre de billet déjà acheté sur la journée #}
-    <div id="choix_nb_billet">
+    <div id="choixNbBillet">
         
     </div>
     
     <h2>4 - Saisissez les informations des visiteurs pour chaque billet</h2>
     {# Affiche les informations à saisir pour chaque billet #}
-    <div id="infos_billet">
+    <div id="infosBillet">
         
     </div>
     
     <h2>5 - Paiement de votre commande</h2>
     {# Affiche un bouton continuer pour le paiement de la commande #}
-    <div id="btn_cmd">
+    <div id="btnCmd">
         
     </div>
+    
+    <script src="../assets/js/datePicker.js"></script>
     
 {% endblock %}
