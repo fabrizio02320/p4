@@ -1,15 +1,12 @@
+/* ***** SCRIPT POUR LA PAGE INDEX ***** */
+
+/* ***** CHOIX DE LA DATE ***** */
 var dt = new Date();
 
 // Display the month, day, and year. getMonth() returns a 0-based number.
 var month = dt.getMonth()+1;
 var day = dt.getDate();
 var year = dt.getFullYear();
-
-// désactivation des dates en fonction du jour de la semaine (ex: 0 pour dimanche)
-var disabledDayNumber = [''];
-
-// désactivation des dates en fonction du mois + jour (ex: 05/01 pour tous les 1er mai)
-var disabledDateRecurring = [''];
 
 $("#choixDate").datepicker({
     closeText: 'Fermer',
@@ -30,14 +27,18 @@ $("#choixDate").datepicker({
 
     }, 
     minDate: new Date(year, month -1, day),
+    maxDate: new Date(year + 1, month -1, day),
 
     onSelect: function(dateText) {
         //le format de dateText est donné par l'option dateFormat
-        selectedDay(
+        var dateSelected = selectedDay(
             parseInt(dateText.slice(0,2),10),
             parseInt(dateText.slice(3,5),10)-1,
             parseInt(dateText.slice(6),10)
         );
+
+        // suite du script, choix du type de billet
+        choixTypeBillet(dateSelected);
     },
 });
 
@@ -46,10 +47,14 @@ var nomMois = ["janvier","février","mars","avril","mai","juin","juillet","août
 
 // affiche la date sélectionnée dans la div "afficheChoixDate"
 function selectedDay(day, month, year) {
-    var jourSemaine = new Date(year, month, day).getDay();
+    var maDate = new Date(year, month, day);
+    var jourSemaine = maDate.getDay();
 
+    // affiche le jour sélectionné sous le datePicker
     $("#afficheChoixDate").html("Vous avez sélectionné le " +
         nomJours[jourSemaine] + " " + day + " " + nomMois[month] + " " + year);
+
+    return maDate;
 }
 
 // fonction qui retourne un tableau [true, ''] ou [false, ''] si la date doit être activé ou non dans le datePicker
@@ -62,8 +67,13 @@ function activatedDate(date) {
 
     // partie concernant une date récurrente tous les ans au format J/M
     var jourRecurrent = [
+        '1/1',
         '1/5',
+        '8/5',
+        '14/7',
+        '15/8',
         '1/11',
+        '11/11',
         '25/12',
     ];
     var dateJourRecurrent = date.getDate() + '/' + (date.getMonth() + 1);
@@ -71,6 +81,31 @@ function activatedDate(date) {
         return [false, ''];
     }
 
+    // partie concernant des dates fixés à l'avance (avec l'année)
+    var jourFixe = [
+        '2/4/2018',
+        '10/5/2018',
+        '21/5/2018',
+    ];
+    var dateJourFixe = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+    if($.inArray(dateJourFixe, jourFixe) > -1){
+        return [false, ''];
+    }
+
+    // vérifie si le nombre de billet maximum sur la journée est atteint
+    // TODO
+
     // sinon, la date est activée
     return [true, ''];
+}
+
+/* ***** CHOIX DU TYPE DE BILLET ***** */
+function choixTypeBillet(dateSelected) {
+    // Récupère le nombre de billet autorisé sur la journée
+    // TODO
+    var nbBilletMax = 6;
+
+    // création de l'objet qui contiendra la liste déroulante
+    if(nbBilletMax > 0){
+    }
 }
