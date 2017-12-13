@@ -1,6 +1,14 @@
 /* ***** SCRIPT POUR LA PAGE INDEX ***** */
 
 /* ***** CHOIX DE LA DATE ***** */
+// vide les différents contenu si le javascript prend le dessus
+document.getElementById("choixDate").textContent = "";
+document.getElementById("afficheChoixDate").textContent = "";
+document.getElementById("choixTypeBillet").textContent = "";
+document.getElementById("choixNbBillet").textContent = "";
+document.getElementById("infosBillet").textContent = "";
+document.getElementById("commander").textContent = "";
+
 var dt = new Date();
 
 // Display the month, day, and year. getMonth() returns a 0-based number.

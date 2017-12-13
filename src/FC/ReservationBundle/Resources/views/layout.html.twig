@@ -1,18 +1,29 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>{% block title %}Réservation Louvre{% endblock %}</title>
-        {% block scriptHead %}{% endblock %}
-    </head>
-    <body>
-        
-        {# A voir ici pour les icones panier et home #}
-        
-        {# A voir ici pour le logo et le titre #}
-        
-        {% block body %}
-        {% endblock %}
-        
-    </body>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}Réservation Louvre{% endblock %}</title>
+
+    {% block stylesheets %}
+        {# Chargement du CSS de bootstrap #}
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    {% endblock %}
+    {% block scriptHead %}{% endblock %}
+</head>
+<body>
+<div class="container">
+    <div id="header" class="jumbotron">
+        <h1>Billetterie du Louvre</h1>
+        <p>
+            Ce site est purement fictif et n'est utilisé que dans le cadre du projet 4 de Chef de projet Multimédia chez OpenClassRooms.
+        </p>
+    </div>
+    {% block body %}
+    {% endblock %}
+
+    <footer></footer>
+</div>
+</body>
 </html>
