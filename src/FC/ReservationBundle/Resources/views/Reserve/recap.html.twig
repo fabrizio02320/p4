@@ -1,0 +1,92 @@
+{% extends "FCReservationBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Récapitulatif{% endblock %}
+
+{% block body %}
+    <fieldset>
+        <legend>1 - Récapitulatif de votre commande</legend>
+        <div id="recapCommande">
+            <p>
+                Votre commande comporte {{ session.nbBilletChoisi }} billet{% if session.nbBilletChoisi > 1 %}s{% endif %}
+                pour un montant total de <strong>{{ session.mntTotal }} euros</strong>.
+            </p>
+            <p>
+                Vous trouverez le détail de votre commande ci-dessous :
+            </p>
+            {% for i in 1..session.nbBilletChoisi %}
+                <div id="infoBillet{{ i }}" class="bandeauBillet">
+                    <strong>Billet n°{{ i }}</strong>
+                    {% if session.billet[i].tarifReduit == true %}
+                        <p>
+                            Le tarif réduit a été coché pour ce billet.<br />
+                            La personne concernée par ce billet devra présenter sa carte
+                            d’étudiant, militaire ou équivalent lors de l’entrée pour prouver
+                            qu’elle bénéficie bien du tarif réduit.
+                        </p>
+                    {% endif %}
+                    <p>
+                        <strong>NOM : </strong>{{ session.billet[i].nom|upper }}
+                    </p>
+                    <p>
+                        <strong>Prénom : </strong>{{ session.billet[i].prenom|capitalize }}
+                    </p>
+                    <p>
+                        <strong>Date de naissance : </strong>{{ session.billet[i].ddn|date("d/m/Y") }}
+                    </p>
+                    <p>
+                        <strong>Pays de naissance : </strong>{{ session.billet[i].pays|upper }}
+                    </p>
+                </div><br />
+            {% endfor %}
+        </div>
+    </fieldset><br />
+
+    <form method="post">
+        <fieldset>
+            <legend>2 - Information client</legend>
+            <div id="infoClient">
+                <p>
+                    Civilité* :
+                    <input type="radio" name="civClient" value="F" id="civF" />
+                    <label for="civF">Madame</label>
+                    <input type="radio" name="civClient" value="H" id="civH" />
+                    <label for="civH">Monsieur</label>
+                </p>
+                <p>
+                    <label for="txNom">NOM*</label>
+                    <input type="text" name="txNom" id="txNom" required>
+                </p>
+                <p>
+                    <label for="txPrenom{{ j }}">Prénom*</label>
+                    <input type="text" name="txPrenom" id="txPrenom" required>
+                </p>
+                <p>
+                    <label for="txTel">Téléphone*</label>
+                    <input type="tel"
+                           pattern="^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$"
+                           name="txTel"
+                           id="txTel"
+                           required>
+                </p>
+                <p>
+                    <label for="txMail1">Adresse email*</label>
+                    <input type="email" name="txMail1" id="txMail1" required>
+                </p>
+                <p>
+                    <label for="txMail2">Confirmer l'adresse email*</label>
+                    <input type="email" name="txMail2" id="txMail2" required>
+                </p>
+            </div>
+        </fieldset><br />
+
+        <fieldset>
+            <legend>3 - Paiement de la commande</legend>
+            <div id="paiementCommande">
+                <p>
+                    <strong>Votre commande s'élève à {{ session.mntTotal }} euros.</strong>
+                </p>
+                <input type="submit" value="PAYER" id="btnPayer" />
+            </div>
+        </fieldset><br />
+    </form>
+{% endblock %}
