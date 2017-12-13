@@ -1,3 +1,7 @@
-hello_the_world:
+index:
     path:   /
     defaults: { _controller: FCReservationBundle:Reserve:index }
+
+recap:
+    path:   /recapitulatif
+    defaults: { _controller: FCReservationBundle:Reserve:recap }
