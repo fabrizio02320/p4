@@ -1,0 +1,25 @@
+{% extends "FCReservationBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Accueil{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+
+        <div class="text-center col-sm-offset-3 col-sm-6">
+
+            <p><strong>Bienvenue sur notre billetterie en ligne !</strong></p>
+            <p>
+                Vous trouverez dans le menu accessible à tout moment
+                les tarifs et les informations concernant le musée.
+            </p>
+
+            <a href="{{ path('info-visite') }}">
+                <button class="btn btn-primary">Commencer !</button>
+            </a>
+
+        </div>
+
+    </div>
+
+{% endblock %}
