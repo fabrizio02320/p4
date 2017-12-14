@@ -3,6 +3,7 @@
 namespace FC\ReservationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Ticket
@@ -22,18 +23,11 @@ class Ticket
     private $id;
 
     /**
-     * @var string
+     * @var bool
      *
-     * @ORM\Column(name="typeTicket", type="string", length=255)
+     * @ORM\Column(name="tarifReduit", type="boolean")
      */
-    private $typeTicket;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="typeTarif", type="string", length=255)
-     */
-    private $typeTarif;
+    private $tarifReduit = false;
 
     /**
      * @var string
@@ -46,6 +40,12 @@ class Ticket
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255)
+     * @Assert\Length(
+     *     min = 3,
+     *     max = 40,
+     *     minMessage="Votre nom doit avoir au moins {{ limit }} caractères.",
+     *     maxMessage="Votre nom ne peut pas dépasser {{ limit }} caractères.",
+     * )
      */
     private $nom;
 
@@ -53,6 +53,12 @@ class Ticket
      * @var string
      *
      * @ORM\Column(name="prenom", type="string", length=255)
+     * @Assert\Length(
+     *     min = 3,
+     *     max = 40,
+     *     minMessage="Votre prénom doit avoir au moins {{ limit }} caractères.",
+     *     maxMessage="Votre prénom ne peut pas dépasser {{ limit }} caractères.",
+     * )
      */
     private $prenom;
 
@@ -60,6 +66,11 @@ class Ticket
      * @var \DateTime
      *
      * @ORM\Column(name="ddn", type="date")
+     * @Assert\DateTime()
+     * @Assert\LessThan(
+     *     "today",
+     *     message = "Veuillez vérifier votre date de naissance."
+     * )
      */
     private $ddn;
 
@@ -67,9 +78,9 @@ class Ticket
      * @var string
      *
      * @ORM\Column(name="pays", type="string", length=255)
+     * @Assert\Country()
      */
     private $pays;
-
 
     /**
      * Get id
@@ -79,54 +90,6 @@ class Ticket
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set typeTicket
-     *
-     * @param string $typeTicket
-     *
-     * @return Ticket
-     */
-    public function setTypeTicket($typeTicket)
-    {
-        $this->typeTicket = $typeTicket;
-
-        return $this;
-    }
-
-    /**
-     * Get typeTicket
-     *
-     * @return string
-     */
-    public function getTypeTicket()
-    {
-        return $this->typeTicket;
-    }
-
-    /**
-     * Set typeTarif
-     *
-     * @param string $typeTarif
-     *
-     * @return Ticket
-     */
-    public function setTypeTarif($typeTarif)
-    {
-        $this->typeTarif = $typeTarif;
-
-        return $this;
-    }
-
-    /**
-     * Get typeTarif
-     *
-     * @return string
-     */
-    public function getTypeTarif()
-    {
-        return $this->typeTarif;
     }
 
     /**
@@ -248,5 +211,28 @@ class Ticket
     {
         return $this->pays;
     }
-}
 
+    /**
+     * Set tarifReduit
+     *
+     * @param boolean $tarifReduit
+     *
+     * @return Ticket
+     */
+    public function setTarifReduit($tarifReduit)
+    {
+        $this->tarifReduit = $tarifReduit;
+
+        return $this;
+    }
+
+    /**
+     * Get tarifReduit
+     *
+     * @return boolean
+     */
+    public function getTarifReduit()
+    {
+        return $this->tarifReduit;
+    }
+}
