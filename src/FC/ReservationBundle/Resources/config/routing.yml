@@ -1,7 +1,7 @@
-index:
+home:
     path:   /
     defaults: { _controller: FCReservationBundle:Reserve:index }
 
-recap:
-    path:   /recapitulatif
-    defaults: { _controller: FCReservationBundle:Reserve:recap }
+info-visite:
+    path:   /info-visite
+    defaults: { _controller: FCReservationBundle:Reserve:infoVisite }
