@@ -1,29 +1,69 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{% block title %}Réservation Louvre{% endblock %}</title>
+        <title>{% block title %}Billetterie du Louvre{% endblock %}</title>
 
-    {% block stylesheets %}
-        {# Chargement du CSS de bootstrap #}
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    {% endblock %}
-    {% block scriptHead %}{% endblock %}
-</head>
-<body>
-<div class="container">
-    <div id="header" class="jumbotron">
-        <h1>Billetterie du Louvre</h1>
-        <p>
-            Ce site est purement fictif et n'est utilisé que dans le cadre du projet 4 de Chef de projet Multimédia chez OpenClassRooms.
-        </p>
-    </div>
-    {% block body %}
-    {% endblock %}
+        {% block stylesheets %}
+            {# Chargement du CSS de bootstrap via CDN #}
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <footer></footer>
-</div>
-</body>
+            {#Feuille de style perso#}
+            <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        {% endblock %}
+
+        {% block scriptHead %}{% endblock %}
+    </head>
+
+    <body>
+        <div class="container">
+
+            <nav class="navbar navbar-inverse navbar-fixed-top">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="{{ path('home') }}" title="LE MUSÉE DU LOUVRE">
+                        <img src="{{ asset('images/louvre-logo.jpg') }}" alt="logo du musée du louvre">
+                        <span id="titre-nav">LE MUSÉE DU LOUVRE</span>
+                    </a>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div id="nav-collapse" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li ><a href="#" class="infos-toggle">Informations</a></li>
+                        <li ><a href="#" class="tarifs-toggle">Tarifs</a></li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="corps">
+
+                <div id="header" class="jumbotron">
+                    <h1>Billetterie du Louvre</h1>
+                    <p>
+                        Ce site est purement fictif et n'est utilisé que dans le cadre du projet 4 de Chef de projet Multimédia chez OpenClassRooms.
+                    </p>
+                </div>
+
+                {% block body %}{% endblock %}
+
+            </div>
+            <footer>
+                <p class="text-center"><i>&copy {{ "now"|date('Y') }} - Fabien Cagniet, Musée du Louvre</i></p>
+            </footer>
+        </div>
+
+        {% block javascripts %}
+
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+            {#<script src="{{ asset('js/info.js') }}"></script>#}
+
+        {% endblock %}
+    </body>
 </html>
