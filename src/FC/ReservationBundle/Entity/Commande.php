@@ -3,6 +3,7 @@
 namespace FC\ReservationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Commande
@@ -25,6 +26,8 @@ class Commande
      * @var \DateTime
      *
      * @ORM\Column(name="dateCommande", type="datetime")
+     * @Assert\DateTime()
+     * @Assert\GreaterThanOrEqual("today")
      */
     private $dateCommande;
 
@@ -33,12 +36,14 @@ class Commande
      *
      * @ORM\Column(name="prix", type="decimal", precision=5, scale=2)
      */
-    private $prix;
+    private $prix = 0;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="dateVisite", type="date")
+     * @Assert\DateTime()
+     * @Assert\GreaterThanOrEqual("today", message = "Veuillez choisir une date au moins égale à aujourd'hui.")
      */
     private $dateVisite;
 
@@ -46,6 +51,7 @@ class Commande
      * @var int
      *
      * @ORM\Column(name="nbTicket", type="smallint")
+     * @Assert\Range(min = 1, max = 10)
      */
     private $nbTicket;
 
@@ -60,6 +66,7 @@ class Commande
      * @var string
      *
      * @ORM\Column(name="courriel", type="string", length=255)
+     * @Assert\Email()
      */
     private $courriel;
 
@@ -67,6 +74,12 @@ class Commande
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255)
+     * @Assert\Length(
+     *     min = 3,
+     *     max = 40,
+     *     minMessage="Votre nom doit avoir au moins {{ limit }} caractères.",
+     *     maxMessage="Votre nom ne peut pas dépasser {{ limit }} caractères.",
+     * )
      */
     private $nom;
 
@@ -74,9 +87,18 @@ class Commande
      * @var string
      *
      * @ORM\Column(name="prenom", type="string", length=255)
+     * @Assert\Length(
+     *     min = 3,
+     *     max = 40,
+     *     minMessage="Votre prénom doit avoir au moins {{ limit }} caractères.",
+     *     maxMessage="Votre prénom ne peut pas dépasser {{ limit }} caractères.",
+     * )
      */
     private $prenom;
 
+    public function __construct(){
+        $this->dateCommande = new \DateTime();
+    }
 
     /**
      * Get id
