@@ -83,6 +83,12 @@ class Ticket
     private $pays;
 
     /**
+     * @ORM\ManyToOne(targetEntity="FC\ReservationBundle\Entity\Commande", inversedBy="billets")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $commande;
+
+    /**
      * Get id
      *
      * @return int
@@ -234,5 +240,29 @@ class Ticket
     public function getTarifReduit()
     {
         return $this->tarifReduit;
+    }
+
+    /**
+     * Set commande
+     *
+     * @param \FC\ReservationBundle\Entity\Commande $commande
+     *
+     * @return Ticket
+     */
+    public function setCommande(\FC\ReservationBundle\Entity\Commande $commande)
+    {
+        $this->commande = $commande;
+
+        return $this;
+    }
+
+    /**
+     * Get commande
+     *
+     * @return \FC\ReservationBundle\Entity\Commande
+     */
+    public function getCommande()
+    {
+        return $this->commande;
     }
 }
