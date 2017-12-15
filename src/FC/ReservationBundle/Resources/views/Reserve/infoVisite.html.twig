@@ -2,12 +2,36 @@
 
 {% block title %}{{ parent() }} - Réservation étape 1{% endblock %}
 
+{% block scriptHead %}
+    <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}">
+    <script src="{{ asset('js/jquery.js') }}"></script>
+    <script src="{{ asset('js/jquery-ui.js') }}"></script>
+{% endblock %}
+
 {% block body %}
 
     <div class="row">
 
+        {{ form_start(form, {'attr': {'class': 'col-sm-offset-4 col-sm-4'}}) }}
 
+        {# Affiche les erreurs générales du formulaire #}
+        {{ form_errors(form) }}
+
+        <div class="form-group text-center">
+            <i class="glyphicon glyphicon-calendar"></i>
+            {{ form_label(form.dateVisite, "Sélectionnez le jour de votre visite") }}
+            {{ form_errors(form.dateVisite) }}
+            {{ form_widget(form.dateVisite, {'attr': {'class': 'form-control text-center'}}) }}
+        </div>
+
+        {{ form_rest(form) }}
+
+        {{ form_end(form) }}
 
     </div>
 
+    {% block javascripts %}
+        <script src="{{ asset('js/infoVisite.js') }}"></script>
+
+    {% endblock %}
 {% endblock %}

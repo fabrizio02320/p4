@@ -3,6 +3,7 @@
 namespace FC\ReservationBundle\Controller;
 
 use FC\ReservationBundle\Entity\Commande;
+use FC\ReservationBundle\Form\CommandeType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -18,7 +19,18 @@ class ReserveController extends Controller {
         return $this->render('FCReservationBundle:Home:index.html.twig');
     }
 
-    public function infoVisiteAction() {
-        return $this->render('FCReservationBundle:Reserve:infoVisite.html.twig');
+    public function infoVisiteAction(Request $request) {
+        $commande = new Commande();
+
+        $form = $this->createForm(CommandeType::class, $commande);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            return $this->redirectToRoute('info-billet');
+        } else {
+            return $this->render('FCReservationBundle:Reserve:infoVisite.html.twig', array(
+                'form' => $form->createView(),
+            ));
+        }
     }
 }

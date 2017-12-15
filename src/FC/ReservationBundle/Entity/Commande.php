@@ -53,7 +53,7 @@ class Commande
      * @ORM\Column(name="nbTicket", type="smallint")
      * @Assert\Range(min = 1, max = 10)
      */
-    private $nbTicket;
+    private $nbTicket = 1;
 
     /**
      * @var string
