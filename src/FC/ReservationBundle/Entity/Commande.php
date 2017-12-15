@@ -96,6 +96,12 @@ class Commande
      */
     private $prenom;
 
+    /**
+     * @ORM\OneToMany(targetEntity="FC\ReservationBundle\Entity\Ticket", mappedBy="commande")
+     * @Assert\Valid
+     */
+    private $tickets;
+
     public function __construct(){
         $this->dateCommande = new \DateTime();
     }
@@ -301,5 +307,38 @@ class Commande
     {
         return $this->prenom;
     }
-}
 
+    /**
+     * Add ticket
+     *
+     * @param \FC\ReservationBundle\Entity\Ticket $ticket
+     *
+     * @return Commande
+     */
+    public function addTicket(\FC\ReservationBundle\Entity\Ticket $ticket)
+    {
+        $this->tickets[] = $ticket;
+
+        return $this;
+    }
+
+    /**
+     * Remove ticket
+     *
+     * @param \FC\ReservationBundle\Entity\Ticket $ticket
+     */
+    public function removeTicket(\FC\ReservationBundle\Entity\Ticket $ticket)
+    {
+        $this->tickets->removeElement($ticket);
+    }
+
+    /**
+     * Get tickets
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTickets()
+    {
+        return $this->tickets;
+    }
+}
