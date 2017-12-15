@@ -1,13 +1,6 @@
 /* ***** SCRIPT POUR LA PAGE INDEX ***** */
 
 /* ***** CHOIX DE LA DATE ***** */
-// vide les différents contenu si le javascript prend le dessus
-document.getElementById("choixDate").textContent = "";
-document.getElementById("afficheChoixDate").textContent = "";
-document.getElementById("choixTypeBillet").textContent = "";
-document.getElementById("choixNbBillet").textContent = "";
-document.getElementById("infosBillet").textContent = "";
-document.getElementById("commander").textContent = "";
 
 var dt = new Date();
 
@@ -16,7 +9,7 @@ var month = dt.getMonth()+1;
 var day = dt.getDate();
 var year = dt.getFullYear();
 
-$("#choixDate").datepicker({
+$("#fc_reservationbundle_commande_dateVisite").datepicker({
     closeText: 'Fermer',
     prevText: '<Préc',
     nextText: 'Suiv>',
