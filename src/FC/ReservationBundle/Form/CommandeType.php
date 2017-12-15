@@ -24,12 +24,13 @@ class CommandeType extends AbstractType
                 'widget'    => 'single_text',
                 'input'     => 'datetime',
                 'format'    => 'dd/MM/yyyy',
+                'invalid_message' => 'Veuillez saisir une date correcte.',
             ))
             ->add('nbTicket',   IntegerType::class, array(
                 'attr' => array(
                     'min' => '1',
                     'max' => '10',
-                )
+                ),
             ))
             ->add('demiJournee', ChoiceType::class, array(
                 'choices' =>array(
