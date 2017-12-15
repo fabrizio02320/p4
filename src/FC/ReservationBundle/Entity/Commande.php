@@ -97,6 +97,14 @@ class Commande
     private $prenom;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="demiJournee", type="boolean")
+     * @Assert\Type(type="boolean")
+     */
+    private $demiJournee;
+
+    /**
      * @ORM\OneToMany(targetEntity="FC\ReservationBundle\Entity\Ticket", mappedBy="commande")
      * @Assert\Valid
      */
@@ -340,5 +348,29 @@ class Commande
     public function getTickets()
     {
         return $this->tickets;
+    }
+
+    /**
+     * Set demiJournee
+     *
+     * @param boolean $demiJournee
+     *
+     * @return Commande
+     */
+    public function setDemiJournee($demiJournee)
+    {
+        $this->demiJournee = $demiJournee;
+
+        return $this;
+    }
+
+    /**
+     * Get demiJournee
+     *
+     * @return boolean
+     */
+    public function getDemiJournee()
+    {
+        return $this->demiJournee;
     }
 }
