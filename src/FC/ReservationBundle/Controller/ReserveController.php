@@ -28,7 +28,7 @@ class ReserveController extends Controller {
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            return $this->redirectToRoute('info-billet');
+            return $this->redirectToRoute('info-ticket');
         } else {
             return $this->render('FCReservationBundle:Reserve:infoVisite.html.twig', array(
                 'form' => $form->createView(),
@@ -36,7 +36,7 @@ class ReserveController extends Controller {
         }
     }
 
-    public function infoBilletAction(Request $request){
+    public function infoTicketAction(Request $request){
         $ticket = new Ticket();
         $form = $this->get('form.factory')->create(TicketType::class, $ticket);
         $form->handleRequest($request);
@@ -44,7 +44,7 @@ class ReserveController extends Controller {
         if($form->isSubmitted() && $form->isValid()){
             return $this->redirectToRoute('info-paiement');
         } else {
-            return $this->render('FCReservationBundle:Reserve:infoBillet.html.twig', array(
+            return $this->render('FCReservationBundle:Reserve:infoTicket.html.twig', array(
                 'form' => $form->createView(),
             ));
         }

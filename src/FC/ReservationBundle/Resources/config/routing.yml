@@ -6,6 +6,6 @@ info-visite:
     path:   /info-visite
     defaults: { _controller: FCReservationBundle:Reserve:infoVisite }
 
-info-billet:
-    path:   /info-billet
-    defaults: { _controller: FCReservationBundle:Reserve:infoBillet}
+info-ticket:
+    path:   /info-ticket
+    defaults: { _controller: FCReservationBundle:Reserve:infoTicket}
