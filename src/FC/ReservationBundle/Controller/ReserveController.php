@@ -22,6 +22,19 @@ class ReserveController extends Controller {
     }
 
     public function infoVisiteAction(Request $request) {
+        // récupération des outils d'une commande
+
+        // récupération d'une commande déjà existante, ou en créer une nouvelle
+
+        // création du formulaire
+
+        // vérification du formulaire reçu
+            // si formulaire ok, redirige vers la deuxième étape
+
+        // si pas de formulaire reçu ou si formulaire reçu pas ok,
+        // réaffiche le formulaire de la première étape
+
+
         $commande = new Commande();
 
         $form = $this->createForm(CommandeType::class, $commande);
@@ -36,7 +49,26 @@ class ReserveController extends Controller {
         }
     }
 
+    /*
+     * Fonction utilisé pour la deuxième étape -
+     */
     public function infoTicketAction(Request $request){
+        // récupération des outils d'une commande
+
+        // Récupération des informations concernant la commande rempli à l'étape 1
+
+        // si pb dans la commande, redirige à l'étape précédente
+
+        // création du formulaire pour saisie des info de chaque billet
+
+        // vérification du formulaire reçu
+        // si formulaire ok, redirige vers l'étape pour le paiement
+
+        // si pas de formulaire reçu ou si formulaire reçu pas ok,
+        // redirige à l'étape précédente
+
+
+        // partie temporaire pour afficher la deuxième étape
         $ticket = new Ticket();
         $form = $this->get('form.factory')->create(TicketType::class, $ticket);
         $form->handleRequest($request);
