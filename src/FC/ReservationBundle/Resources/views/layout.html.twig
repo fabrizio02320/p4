@@ -12,7 +12,8 @@
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
             {#Feuille de style perso#}
-            <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+            {#<link rel="stylesheet" href="{{ asset('css/style.css') }}">#}
+            <link rel="stylesheet" href="{{ asset('bundles/fcreservation/css/style.css') }}">
         {% endblock %}
 
         {% block scriptHead %}{% endblock %}
@@ -24,7 +25,7 @@
             <nav class="navbar navbar-inverse navbar-fixed-top">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="{{ path('home') }}" title="LE MUSÉE DU LOUVRE">
-                        <img src="{{ asset('images/louvre-logo.jpg') }}" alt="logo du musée du louvre">
+                        <img src="{{ asset('bundles/fcreservation/images/louvre-logo.jpg') }}" alt="logo du musée du louvre">
                         <span id="titre-nav">LE MUSÉE DU LOUVRE</span>
                     </a>
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav-collapse">
@@ -63,7 +64,7 @@
 
         {% block javascripts %}
 
-            {#<script src="{{ asset('js/info.js') }}"></script>#}
+            {#<script src="{{ asset('bundles/fcreservation/js/info.js') }}"></script>#}
 
         {% endblock %}
     </body>
