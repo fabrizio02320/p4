@@ -3,9 +3,9 @@
 {% block title %}{{ parent() }} - Réservation étape 1{% endblock %}
 
 {% block scriptHead %}
-    <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}">
-    <script src="{{ asset('js/jquery.js') }}"></script>
-    <script src="{{ asset('js/jquery-ui.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('bundles/fcreservation/css/jquery-ui.css') }}">
+    <script src="{{ asset('bundles/fcreservation/js/jquery.js') }}"></script>
+    <script src="{{ asset('bundles/fcreservation/js/jquery-ui.js') }}"></script>
 {% endblock %}
 
 {% block body %}
@@ -31,7 +31,7 @@
     </div>
 
     {% block javascripts %}
-        <script src="{{ asset('js/infoVisite.js') }}"></script>
+        <script src="{{ asset('bundles/fcreservation/js/infoVisite.js') }}"></script>
 
     {% endblock %}
 {% endblock %}
