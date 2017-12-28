@@ -1,0 +1,37 @@
+<div class="ticket">
+    <h3><i class="glyphicon glyphicon-user"></i>Ticket n°<span class="num-ticket">1</span> : </h3>
+    <div class="form-group">
+        {{ form_label(ticket.tarifReduit, 'Cochez si tarif réduit') }}
+        {{ form_errors(ticket.tarifReduit) }}
+        {{ form_widget(ticket.tarifReduit,
+            {'attr': {'onclick':
+                'if(this.checked)
+                    {this.nextElementSibling.setAttribute("style", "display: block")}
+                 else{this.nextElementSibling.setAttribute("style", "display: none")}'
+            }}
+        ) }}
+        <p class="info-tarif-reduit" style="display: none">
+            <i>Il sera nécessaire de présenter votre carte d’étudiant, militaire ou équivalent lors de votre entrée dans le musée.</i>
+        </p>
+    </div>
+    <div class="form-group">
+        {{ form_label(ticket.nom, 'NOM') }}
+        {{ form_errors(ticket.nom) }}
+        {{ form_widget(ticket.nom, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(ticket.prenom, 'Prénom') }}
+        {{ form_errors(ticket.prenom) }}
+        {{ form_widget(ticket.prenom, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(ticket.ddn, 'Date de naissance') }}
+        {{ form_errors(ticket.ddn) }}
+        {{ form_widget(ticket.ddn, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(ticket.pays, 'Pays') }}
+        {{ form_errors(ticket.pays) }}
+        {{ form_widget(ticket.pays, {'attr': {'class': 'form-control'}}) }}
+    </div>
+</div>
