@@ -112,6 +112,10 @@ class Commande
 
     public function __construct(){
         $this->dateCommande = new \DateTime();
+        $this->dateVisite = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+        $str = "ABCDEFGHIJKLMNOPQRSTUVWYZ";
+        $str = substr(str_shuffle($str), 0, 4);
+        $this->ref = $this->dateVisite->format("ymd") . $str;
     }
 
     /**
