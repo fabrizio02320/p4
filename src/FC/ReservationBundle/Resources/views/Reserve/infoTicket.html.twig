@@ -12,6 +12,13 @@
         {# Affiche les erreurs générales du formulaire #}
         {{ form_errors(form) }}
 
+        <p>Nombre de ticket désiré : {{ commande.nbTicket }}</p><br />
+        {% for ticket in form.tickets %}
+            {{ include('FCReservationBundle:Reserve:prototypeTicket.html.twig', {'ticket': ticket}) }}
+        {% endfor %}
+
+        {{ form_widget(form.Suivant, {'attr': {'class': 'commande-submit btn btn-primary'}}) }}
+
         {{ form_rest(form) }}
 
         {{ form_end(form) }}
