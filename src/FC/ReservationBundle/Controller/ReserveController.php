@@ -5,6 +5,7 @@ namespace FC\ReservationBundle\Controller;
 use FC\ReservationBundle\Entity\Commande;
 use FC\ReservationBundle\Entity\Ticket;
 use FC\ReservationBundle\Form\CommandeType;
+use FC\ReservationBundle\Form\MultiTicketType;
 use FC\ReservationBundle\Form\TicketType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -22,31 +23,33 @@ class ReserveController extends Controller {
     }
 
     public function infoVisiteAction(Request $request) {
-        // récupération des outils d'une commande
+        // récupération des outils d'une commande et l'initialise si nécessaire
+        $servCommande = $this->get('fc_reserve.servcommande');
 
         // récupération d'une commande déjà existante, ou en créer une nouvelle
+        $commande = $servCommande->initCommande();
 
         // création du formulaire
-
-        // vérification du formulaire reçu
-            // si formulaire ok, redirige vers la deuxième étape
-
-        // si pas de formulaire reçu ou si formulaire reçu pas ok,
-        // réaffiche le formulaire de la première étape
-
-
-        $commande = new Commande();
-
         $form = $this->createForm(CommandeType::class, $commande);
         $form->handleRequest($request);
 
+        // vérification du formulaire reçu
         if($form->isSubmitted() && $form->isValid()){
-            return $this->redirectToRoute('info-ticket');
-        } else {
-            return $this->render('FCReservationBundle:Reserve:infoVisite.html.twig', array(
-                'form' => $form->createView(),
-            ));
+
+            echo '<br /><br /><br /><br /><br /><br />';
+            echo $commande->getRef();
+            // si formulaire ok, redirige vers la deuxième étape
+            if($servCommande->validCommande($commande)){
+
+                return $this->redirectToRoute('info-ticket');
+            }
         }
+
+        // si pas de formulaire reçu ou si formulaire reçu pas ok,
+        // réaffiche le formulaire de la première étape
+        return $this->render('FCReservationBundle:Reserve:infoVisite.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
 
     /*
@@ -54,30 +57,34 @@ class ReserveController extends Controller {
      */
     public function infoTicketAction(Request $request){
         // récupération des outils d'une commande
+        $servCommande = $this->get('fc_reserve.servcommande');
 
         // Récupération des informations concernant la commande rempli à l'étape 1
+        $commande = $servCommande->initCommande();
 
         // si pb dans la commande, redirige à l'étape précédente
+        if(!$servCommande->validCommande($commande)){
+            return $this->redirectToRoute('info-visite');
+        }
 
-        // création du formulaire pour saisie des info de chaque billet
+        // mets à jour les tickets dans la commande
+        $servCommande->updateTickets($commande);
+
+        // création du formulaire pour saisie des info de chaque ticket
+        $form = $this->get('form.factory')->create(MultiTicketType::class, $commande);
+        $form->handleRequest($request);
 
         // vérification du formulaire reçu
         // si formulaire ok, redirige vers l'étape pour le paiement
-
-        // si pas de formulaire reçu ou si formulaire reçu pas ok,
-        // redirige à l'étape précédente
-
-
-        // partie temporaire pour afficher la deuxième étape
-        $ticket = new Ticket();
-        $form = $this->get('form.factory')->create(TicketType::class, $ticket);
-        $form->handleRequest($request);
-
         if($form->isSubmitted() && $form->isValid()){
             return $this->redirectToRoute('info-paiement');
         } else {
+
+            // si pas de formulaire reçu ou si formulaire reçu pas ok,
+            // redirige à l'étape précédente
             return $this->render('FCReservationBundle:Reserve:infoTicket.html.twig', array(
                 'form' => $form->createView(),
+                'commande' => $commande,
             ));
         }
     }
