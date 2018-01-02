@@ -5,6 +5,20 @@
 
 {% block body %}
 
+    <div class="row info-resume">
+        <div class="row">
+            <p class="col-sm-offset-4 col-sm-4">
+                Vous souhaitez réserver {{ commande.nbTicket }} ticket{% if commande.nbTicket > 1 %}s{% endif %}
+                    {% if commande.demiJournee %}demi-{% endif %}journée pour la date du {{ commande.dateVisite|date("d/m/Y") }}
+            </p>
+        </div>
+        <div class="row">
+                <a class="btn btn-warning col-sm-offset-3 col-sm-3 col-xs-offset-2 col-xs-8" href="{{ path('home', { 'resetCommande': true } ) }}">Annuler ma commande</a>
+
+                <a class="btn btn-success col-sm-3" href="{{ path('info-visite') }}">Modifier ma commande</a>
+
+        </div>
+    </div>
     <div class="row">
 
         {{ form_start(form, {'attr': {'class': 'col-sm-offset-3 col-sm-6'}}) }}
@@ -12,7 +26,6 @@
         {# Affiche les erreurs générales du formulaire #}
         {{ form_errors(form) }}
 
-        <p>Nombre de ticket désiré : {{ commande.nbTicket }}</p><br />
         {% for ticket in form.tickets %}
             {{ include('FCReservationBundle:Reserve:prototypeTicket.html.twig', {'ticket': ticket}) }}
         {% endfor %}
