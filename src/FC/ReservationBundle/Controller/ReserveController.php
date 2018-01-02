@@ -18,7 +18,18 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ReserveController extends Controller {
 
+    /**
+     * Page d'accueil et reset une commande si demandé
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function indexAction() {
+//        echo '<br /><br /><br /><br /><br /><br /><br /><br />';
+//        print_r($_GET);
+        if(isset($_GET['resetCommande']) && $_GET['resetCommande'] === 1){
+            $servCommande = $this->get('fc_reserve.servcommande');
+            $servCommande->resetCommande();
+        }
         return $this->render('FCReservationBundle:Home:index.html.twig');
     }
 
