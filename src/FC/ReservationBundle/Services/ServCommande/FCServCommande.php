@@ -81,6 +81,7 @@ class FCServCommande
 
         // vérif sur les jours interdits
         if(in_array($dateVisite->format('d/m'), $jourInterdit)){
+            $this->session->getFlashBag()->add('warning', "Désolé, le Musée est fermé pour le jour que vous avez choisi, veuillez choisir une autre date.");
             return false;
         }
 
@@ -129,10 +130,20 @@ class FCServCommande
 //                $commande->removeTicket($commande->getTickets()[$nbTickets - (1 + $j)]);
                 $ticket = $commande->getTickets()[$nbTickets - (1 + $j)];
                 // TODO - probleme de conversion d'array...
-                echo '<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />';
+//                echo '<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />';
 //                echo 'type '. gettype($ticket);
                 $commande->removeTicket($ticket);
             }
         }
+    }
+
+    /**
+     * Annule la commande en mémoire si elle existe et en initialise une nouvelle
+     *
+     */
+    public function resetCommande(){
+        $this->session->remove('tickets');
+        $this->session->remove('commande');
+        $this->initCommande();
     }
 }

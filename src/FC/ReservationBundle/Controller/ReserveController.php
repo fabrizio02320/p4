@@ -47,8 +47,8 @@ class ReserveController extends Controller {
         // vérification du formulaire reçu
         if($form->isSubmitted() && $form->isValid()){
 
-            echo '<br /><br /><br /><br /><br /><br />';
-            echo $commande->getRef();
+//            echo '<br /><br /><br /><br /><br /><br />';
+//            echo $commande->getRef();
             // si formulaire ok, redirige vers la deuxième étape
             if($servCommande->validCommande($commande)){
 
