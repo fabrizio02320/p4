@@ -1,0 +1,25 @@
+<div class="row messages">
+    {% set typeMessage = [
+        'primary',
+        'secondary',
+        'success',
+        'danger',
+        'warning',
+        'info',
+        'light',
+        'dark',
+        'white',
+    ] %}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            {% if label in typeMessage %}
+                {% set bg = 'bg-' ~ label %}
+            {% else %}
+                {% set bg = 'bg-info' %}
+            {% endif %}
+            <div class="{{ bg }} text-center {# text-danger #} col-sm-4 col-sm-offset-4 col-xs-8 col-xs-offset-2">
+                <p> {{ message }} </p>
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>

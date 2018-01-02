@@ -7,7 +7,7 @@
 
     <div class="row info-resume">
         <div class="row">
-            <p class="col-sm-offset-4 col-sm-4">
+            <p class="bg-info text-center col-sm-offset-4 col-sm-4">
                 Vous souhaitez réserver {{ commande.nbTicket }} ticket{% if commande.nbTicket > 1 %}s{% endif %}
                     {% if commande.demiJournee %}demi-{% endif %}journée pour la date du {{ commande.dateVisite|date("d/m/Y") }}
             </p>
