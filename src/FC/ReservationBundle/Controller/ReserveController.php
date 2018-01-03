@@ -26,8 +26,8 @@ class ReserveController extends Controller {
     public function indexAction() {
 //        echo '<br /><br /><br /><br /><br /><br /><br /><br />';
 //        print_r($_GET);
-        if(isset($_GET['resetCommande']) && $_GET['resetCommande'] === 1){
-            $servCommande = $this->get('fc_reserve.servcommande');
+        $servCommande = $this->get('fc_reserve.servcommande');
+        if(isset($_GET['resetCommande']) && $_GET['resetCommande'] == true){
             $servCommande->resetCommande();
         }
         return $this->render('FCReservationBundle:Home:index.html.twig');
@@ -96,6 +96,7 @@ class ReserveController extends Controller {
             return $this->render('FCReservationBundle:Reserve:infoTicket.html.twig', array(
                 'form' => $form->createView(),
                 'commande' => $commande,
+                'pathModifyCommande' => 'info-visite',
             ));
         }
     }

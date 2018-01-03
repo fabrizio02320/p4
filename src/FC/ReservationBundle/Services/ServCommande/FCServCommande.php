@@ -146,4 +146,8 @@ class FCServCommande
         $this->session->remove('commande');
         $this->initCommande();
     }
+
+    public function test(){
+        echo '<br /><br /><br /><br /><br /><br /><br /><br /><br />Test';
+    }
 }
