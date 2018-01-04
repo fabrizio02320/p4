@@ -265,4 +265,11 @@ class Ticket
     {
         return $this->commande;
     }
+
+    /**
+     * Unset Commande
+     */
+//    public function unsetCommande(){
+//        $this->commande = null;
+//    }
 }

@@ -24,12 +24,11 @@ class ReserveController extends Controller {
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction() {
-//        echo '<br /><br /><br /><br /><br /><br /><br /><br />';
-//        print_r($_GET);
         $servCommande = $this->get('fc_reserve.servcommande');
         if(isset($_GET['resetCommande']) && $_GET['resetCommande'] == true){
             $servCommande->resetCommande();
         }
+
         return $this->render('FCReservationBundle:Home:index.html.twig');
     }
 
@@ -46,9 +45,6 @@ class ReserveController extends Controller {
 
         // vérification du formulaire reçu
         if($form->isSubmitted() && $form->isValid()){
-
-//            echo '<br /><br /><br /><br /><br /><br />';
-//            echo $commande->getRef();
             // si formulaire ok, redirige vers la deuxième étape
             if($servCommande->validCommande($commande)){
 
