@@ -1,5 +1,4 @@
-<div class="ticket">
-    <h3><i class="glyphicon glyphicon-user"></i>Ticket n°<span class="num-ticket">1</span> : </h3>
+
     <div class="form-group">
         {{ form_label(ticket.tarifReduit, 'Cochez si tarif réduit') }}
         {{ form_errors(ticket.tarifReduit) }}
@@ -34,4 +33,3 @@
         {{ form_errors(ticket.pays) }}
         {{ form_widget(ticket.pays, {'attr': {'class': 'form-control'}}) }}
     </div>
-</div>
