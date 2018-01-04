@@ -2,6 +2,7 @@
 
 namespace FC\ReservationBundle\Entity;
 
+//use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -106,6 +107,7 @@ class Commande
 
     /**
      * @ORM\OneToMany(targetEntity="FC\ReservationBundle\Entity\Ticket", mappedBy="commande")
+     * @var \Doctrine\Common\Collections\ArrayCollection
      * @Assert\Valid
      */
     private $tickets;
@@ -116,6 +118,7 @@ class Commande
         $str = "ABCDEFGHIJKLMNOPQRSTUVWYZ";
         $str = substr(str_shuffle($str), 0, 4);
         $this->ref = $this->dateVisite->format("ymd") . $str;
+        $this->tickets = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -329,6 +332,7 @@ class Commande
      */
     public function addTicket(\FC\ReservationBundle\Entity\Ticket $ticket)
     {
+        $ticket->setCommande($this);
         $this->tickets[] = $ticket;
 
         return $this;
@@ -342,6 +346,7 @@ class Commande
     public function removeTicket(\FC\ReservationBundle\Entity\Ticket $ticket)
     {
         $this->tickets->removeElement($ticket);
+//        $ticket->unsetCommande();
     }
 
     /**

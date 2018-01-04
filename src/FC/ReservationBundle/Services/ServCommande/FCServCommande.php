@@ -4,10 +4,12 @@ namespace FC\ReservationBundle\Services\ServCommande;
 
 use FC\ReservationBundle\Entity\Commande;
 use FC\ReservationBundle\Entity\Ticket;
+//use Doctrine\ORM\EntityManager;
 
 class FCServCommande
 {
     private $session;
+    private $em;
 
     public function __construct
     (
@@ -48,12 +50,25 @@ class FCServCommande
 
     public function validCommande(Commande $commande)
     {
+        $commandeValid = false;
+
         // vérification de la date de la visite
-        if(!$this->validDate($commande)){
-            return false;
+        if($this->validDate($commande)){
+
+            $commandeValid = true;
+
+            // si la commande possède des tickets, on les enregistre en session
+            // pour les persister qu'à la fin de la commande
+//            if($commande->getNbTicket() > 0){
+//                $this->enregTicketsSession($commande);
+//            }
         }
 
-        return true;
+        // si la commande est valide, on la persiste pour réserver les disponibilités en bd
+//        $this->em->persist($commande);
+//        $em = $this->getDoctrine()->getManager();
+
+        return $commandeValid;
     }
 
     public function validDate(Commande $commande)
@@ -85,6 +100,8 @@ class FCServCommande
             return false;
         }
 
+//        $em = $this->get('doctrine.orm.entity_manager');
+
         return true;
     }
 
@@ -96,6 +113,7 @@ class FCServCommande
 
         // s'il y a bien des tickets en session
         if(count($ticketsSession) > 0){
+//            echo '<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />Ticket en session';
             foreach($ticketsSession as $ticket){
                 $commande->addTicket($ticket);
             }
@@ -119,19 +137,15 @@ class FCServCommande
         if($diffNbTickets > 0){
             for($i = 0; $i < $diffNbTickets; $i++){
                 $ticket = new Ticket();
-                $ticket->setCommande($commande);
                 $commande->addTicket($ticket);
             }
         }
 
         // s'il y a des tickets en trop, les supprimes en partant du dernier
         if($diffNbTickets < 0){
+            echo '<br /><br /><br /><br /><br /><br />NB diff '. $diffNbTickets;
             for ($j = 0; $j < -$diffNbTickets; $j++){
-//                $commande->removeTicket($commande->getTickets()[$nbTickets - (1 + $j)]);
                 $ticket = $commande->getTickets()[$nbTickets - (1 + $j)];
-                // TODO - probleme de conversion d'array...
-//                echo '<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />';
-//                echo 'type '. gettype($ticket);
                 $commande->removeTicket($ticket);
             }
         }
@@ -149,5 +163,29 @@ class FCServCommande
 
     public function test(){
         echo '<br /><br /><br /><br /><br /><br /><br /><br /><br />Test';
+    }
+
+    /**
+     * Sauvegarde les tickets de la commande en session pour ne les persister qu'à la fin
+     *
+     * @param Commande $commande
+     * @return bool
+     */
+    public function enregTicketsSession(Commande $commande){
+        $listeTickets = array();
+        foreach ($commande->getTickets() as $ticket){
+//            echo '<br /><br /><br /><br /><br /><br /><br /><br /><br />Enreg Ticket Session ';
+            // calcul du prix du ticket
+
+            // garde le ticket de côté
+            array_push($listeTickets, $ticket);
+
+            // retire le ticket de la commande (pour le persister qu'à la fin)
+            $commande->removeTicket($ticket);
+        }
+
+        // on enregistre les tickets en session
+        $this->session->set('tickets', $listeTickets);
+        return true;
     }
 }
