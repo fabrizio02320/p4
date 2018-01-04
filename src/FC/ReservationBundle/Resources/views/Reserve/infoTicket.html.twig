@@ -14,12 +14,6 @@
                     {% if commande.demiJournee %}demi-{% endif %}journée pour la date du {{ commande.dateVisite|date("d/m/Y") }}
             </p>
         </div>
-        {#<div class="row">#}
-                {#<a class="btn btn-warning col-sm-offset-3 col-sm-3 col-xs-offset-2 col-xs-8" href="{{ path('home', { 'resetCommande': true } ) }}">Annuler ma commande</a>#}
-
-                {#<a class="btn btn-success col-sm-3" href="{{ path('info-visite') }}">Modifier ma commande</a>#}
-
-        {#</div>#}
     </div>
     <div class="row">
 
@@ -29,7 +23,11 @@
         {{ form_errors(form) }}
 
         {% for ticket in form.tickets %}
-            {{ include('FCReservationBundle:Reserve:prototypeTicket.html.twig', {'ticket': ticket}) }}
+            <div class="ticket">
+                <h3><i class="glyphicon glyphicon-user"></i>Ticket n°{{ loop.index }} : </h3>
+
+                {{ include('FCReservationBundle:Reserve:prototypeTicket.html.twig', {'ticket': ticket}) }}
+            </div><br />
         {% endfor %}
 
         {{ form_widget(form.Suivant, {'attr': {'class': 'commande-submit btn btn-primary'}}) }}
