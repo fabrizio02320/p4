@@ -9,3 +9,7 @@ info-visite:
 info-ticket:
     path:   /info-ticket
     defaults: { _controller: FCReservationBundle:Reserve:infoTicket}
+
+recap-commande:
+    path:   /recap-commande
+    defaults: { _controller: FCReservationBundle:Reserve:recapCommande}

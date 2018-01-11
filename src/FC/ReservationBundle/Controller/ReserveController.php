@@ -76,7 +76,7 @@ class ReserveController extends Controller {
         // vérification du formulaire reçu
         // si formulaire ok, redirige vers l'étape pour le paiement
         if($form->isSubmitted() && $form->isValid()){
-            return $this->redirectToRoute('info-paiement');
+            return $this->redirectToRoute('recap-commande');
         } else {
 
             // si pas de formulaire reçu ou si formulaire reçu pas ok,
@@ -85,6 +85,45 @@ class ReserveController extends Controller {
                 'form' => $form->createView(),
                 'commande' => $commande,
                 'pathModifyCommande' => 'info-visite',
+            ));
+        }
+    }
+
+    /*
+     * Fonction utilisé pour la troisième étape - Récapitulatif de la commande
+     */
+    public function recapCommandeAction(Request $request){
+        // récupération des outils d'une commande
+        $servCommande = $this->get('fc_reserve.servcommande');
+
+        // Récupération des informations concernant la commande rempli à l'étape 2
+        $commande = $servCommande->initCommande();
+
+        // si pb dans la commande, redirige à l'étape précédente
+        if(!$servCommande->validCommande($commande)){
+            return $this->redirectToRoute('info-ticket');
+        }
+
+        // mets à jour les tickets dans la commande
+        $servCommande->updateTickets($commande);
+
+        // création du formulaire pour saisie des info du client qui passe la commande
+        $form = $this->get('form.factory')->create(CommandeType::class, $commande);
+        $form->handleRequest($request);
+
+        // vérification du formulaire reçu
+        // si formulaire ok, redirige vers l'étape pour le paiement
+        if($form->isSubmitted() && $form->isValid()){
+            return $this->redirectToRoute('recap-commande');
+        } else {
+
+            // si pas de formulaire reçu ou si formulaire reçu pas ok,
+            // redirige à l'étape précédente
+            return $this->render('@FCReservation/Reserve/recapCommande.html.twig', array(
+                'form' => $form->createView(),
+                'commande' => $commande,
+                'pathModifyCommande' => 'info-ticket',
+                'servTicket' => $this->get('fc_reserve.servtickets'),
             ));
         }
     }
