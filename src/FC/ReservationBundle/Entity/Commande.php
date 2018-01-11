@@ -52,7 +52,6 @@ class Commande
      * @var int
      *
      * @ORM\Column(name="nbTicket", type="smallint")
-     * @Assert\Range(min = 1, max = 10)
      */
     private $nbTicket = 1;
 
@@ -70,6 +69,14 @@ class Commande
      * @Assert\Email()
      */
     private $courriel;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="civ", type="string", length=8)
+     * @Assert\Choice({"Madame", "Monsieur"})
+     */
+    private $civ;
 
     /**
      * @var string
@@ -381,5 +388,29 @@ class Commande
     public function getDemiJournee()
     {
         return $this->demiJournee;
+    }
+
+    /**
+     * Set civ
+     *
+     * @param string $civ
+     *
+     * @return Commande
+     */
+    public function setCiv($civ)
+    {
+        $this->civ = $civ;
+
+        return $this;
+    }
+
+    /**
+     * Get civ
+     *
+     * @return string
+     */
+    public function getCiv()
+    {
+        return $this->civ;
     }
 }

@@ -1,8 +1,11 @@
 {% extends "FCReservationBundle::layout.html.twig" %}
 
-{% block title %}{{ parent() }} - Récapitulatif{% endblock %}
+{% block title %}{{ parent() }} - Étape 3 - Récapitulatif et paiement{% endblock %}
 
 {% block body %}
+
+    {{ include('FCReservationBundle::manageCommande.html.twig') }}
+
     <fieldset>
         <legend>1 - Récapitulatif de votre commande</legend>
         <div id="recapCommande">
