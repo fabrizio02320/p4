@@ -5,7 +5,11 @@ namespace FC\ReservationBundle\Form;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,31 +22,22 @@ class CommandeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-//            ->add('dateCommande')
-//            ->add('prix')
-            ->add('dateVisite', DateType::class, array(
-                'widget'    => 'single_text',
-                'input'     => 'datetime',
-                'format'    => 'dd/MM/yyyy',
-                'invalid_message' => 'Veuillez saisir une date correcte.',
-            ))
-            ->add('nbTicket',   IntegerType::class, array(
-                'attr' => array(
-                    'min' => '1',
-                    'max' => '10',
-                ),
-            ))
-            ->add('demiJournee', ChoiceType::class, array(
+            ->add('civ', ChoiceType::class, array(
+                'expanded' => true,
+                'multiple' => false,
                 'choices' =>array(
-                    'Journée'       => false,
-                    'Demi-journée'  => true,
+                    'Madame'        => 'Madame',
+                    'Monsieur'      => 'Monsieur',
                 )
             ))
+            ->add('nom')
+            ->add('prenom')
+            ->add('courriel', RepeatedType::class, array(
+                'type' => EmailType::class,
+                'first_options' => array('label' => 'Adresse email'),
+                'second_options' => array('label' => 'Confirmer l\'adresse email'),
+            ))
             ->add('Suivant',    SubmitType::class)
-//            ->add('ref')
-//            ->add('courriel')
-//            ->add('nom')
-//            ->add('prenom')
         ;
     }
     
