@@ -4,22 +4,24 @@ namespace FC\ReservationBundle\Services\ServCommande;
 
 use FC\ReservationBundle\Entity\Commande;
 use FC\ReservationBundle\Entity\Ticket;
+use FC\ReservationBundle\Services\ServTickets\FCServTickets;
 //use Doctrine\ORM\EntityManager;
 
 class FCServCommande
 {
     private $session;
-    private $em;
+    private $servTickets;
+//    private $em;
 
     public function __construct
     (
-        \Symfony\Component\HttpFoundation\Session\Session $session
-//        \FC\ReservationBundle\Services\ServTickets\FCServTickets $servTicket,
+        \Symfony\Component\HttpFoundation\Session\Session $session,
+        \FC\ReservationBundle\Services\ServTickets\FCServTickets $servTickets
 //        $nbTicketMaxParJour
 //        \Doctrine\ORM\EntityManager $em
     )
     {
-//        $this->servTicket = $servTicket;
+        $this->servTickets = $servTickets;
 //        $this->nbTicketsMaxParJour = 1000;
 //        $this->em = $em;
         $this->session = $session;
@@ -126,6 +128,39 @@ class FCServCommande
      * @param $commande
      */
     public function updateTickets(Commande $commande){
+        // D'abord, met à jour le nombre de tickets dans la commande
+        $this->updateNbTickets($commande);
+
+        // ensuite, met à jour le prix des tickets
+        foreach($commande->getTickets() as $ticket){
+            $this->servTickets->calculPrixTicket($ticket, $commande);
+        }
+
+        // enfin, met à jour le prix de la commande
+        $this->calculPrixCommande($commande);
+    }
+
+    /**
+     * Calcul le prix d'une commande et lui assigne
+     *
+     * @param Commande $commande
+     */
+    public function calculPrixCommande(Commande $commande){
+        $prix = 0;
+
+        foreach ($commande->getTickets() as $ticket){
+            $prix += $ticket->getPrix();
+        }
+
+        $commande->setPrix($prix);
+    }
+
+    /**
+     * Mets à jour le nombre de tickets dans la commande
+     *
+     * @param Commande $commande
+     */
+    public function updateNbTickets(Commande $commande){
         // on vérifie si la commande est déjà à jour par rapport au nombre de ticket
         $nbTickets = count($commande->getTickets());
         $diffNbTickets = $commande->getNbTicket() - $nbTickets;
@@ -143,7 +178,6 @@ class FCServCommande
 
         // s'il y a des tickets en trop, les supprimes en partant du dernier
         if($diffNbTickets < 0){
-            echo '<br /><br /><br /><br /><br /><br />NB diff '. $diffNbTickets;
             for ($j = 0; $j < -$diffNbTickets; $j++){
                 $ticket = $commande->getTickets()[$nbTickets - (1 + $j)];
                 $commande->removeTicket($ticket);
