@@ -1,0 +1,34 @@
+<br />
+<table>
+    {% if ticket.tarifReduit == true %}
+    <tr>
+        <i>
+            Le tarif réduit a été coché pour ce billet.<br />
+            La personne concernée par ce billet devra présenter sa carte
+            d’étudiant, militaire ou équivalent lors de l’entrée pour prouver
+            qu’elle bénéficie bien du tarif réduit.
+        </i>
+    </tr>
+    {% endif %}
+    <tr>
+        <td>NOM :{{ ticket.nom|upper }}</td>
+        <td>Prénom : {{ ticket.prenom|capitalize }}</td>
+    </tr>
+    <tr>
+        <td>Date de naissance : {{ ticket.ddn|date("d/m/Y") }}</td>
+        <td>Age : {{ servTicket.age( ticket.ddn, commande.dateVisite ) }} ans</td>
+    </tr>
+    <tr>
+        <td>Pays de naissance : {{ ticket.pays|upper }}</td>
+        <td>Prix du ticket :
+        {% if ticket.prix == 0 %}
+            Gratuit
+        {% else %}
+            {{ ticket.prix }} euros
+        {% endif %}
+        </td>
+    </tr>
+
+</table>
+
+
