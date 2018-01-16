@@ -13,3 +13,7 @@ info-ticket:
 recap-commande:
     path:   /recap-commande
     defaults: { _controller: FCReservationBundle:Reserve:recapCommande}
+
+payment:
+    path:   /payment
+    defaults: { _controller: FCReservationBundle:Payment:payment}

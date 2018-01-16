@@ -114,7 +114,7 @@ class ReserveController extends Controller {
         // vérification du formulaire reçu
         // si formulaire ok, redirige vers l'étape pour le paiement
         if($form->isSubmitted() && $form->isValid()){
-            return $this->redirectToRoute('recap-commande');
+            return $this->redirectToRoute('payment');
         } else {
 
             // si pas de formulaire reçu ou si formulaire reçu pas ok,
