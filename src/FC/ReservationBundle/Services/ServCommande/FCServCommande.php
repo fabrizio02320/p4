@@ -49,9 +49,6 @@ class FCServCommande
             $this->session->remove('refCommande');
         }
 
-        // vérifie et ajoute d'éventuel ticket en session
-        $this->getTicketSession($commande);
-
         return $commande;
     }
 
@@ -102,19 +99,6 @@ class FCServCommande
 //        $em = $this->get('doctrine.orm.entity_manager');
 
         return true;
-    }
-
-    /**
-     * @param Commande $commande
-     */
-    public function getTicketSession($commande){
-        $ticketsSession = $this->session->get('tickets');
-
-        if(count($ticketsSession) > 0){
-            foreach($ticketsSession as $ticket){
-                $commande->addTicket($ticket);
-            }
-        }
     }
 
     /**
