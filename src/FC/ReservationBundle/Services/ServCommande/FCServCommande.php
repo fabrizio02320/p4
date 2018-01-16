@@ -170,7 +170,7 @@ class FCServCommande
      */
     public function resetCommande(){
         $this->session->remove('commande');
-        $this->initCommande();
+//        $this->initCommande();
     }
 
     /**
