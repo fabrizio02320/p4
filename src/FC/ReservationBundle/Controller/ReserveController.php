@@ -127,4 +127,24 @@ class ReserveController extends Controller {
             ));
         }
     }
+
+    public function finCommandeAction(){
+        // service commande
+        $servCommande = $this->get('fc_reserve.servcommande');
+
+        // récupère la référence de la commande
+        $refCommande = $servCommande->getRefCommande();
+
+        // si la commande n'est pas finalisé, la refCommande est null...
+        if(!$refCommande){
+            // todo
+            echo '<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />Ref commande null... '. $refCommande;
+            return $this->redirectToRoute('info-visite');
+        }
+
+        // page de fin de la commande
+        return $this->render('@FCReservation/Reserve/finCommande.html.twig', array(
+            'refCommande' => $refCommande,
+        ));
+    }
 }
