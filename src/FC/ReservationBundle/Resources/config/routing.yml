@@ -17,3 +17,7 @@ recap-commande:
 payment:
     path:   /payment
     defaults: { _controller: FCReservationBundle:Payment:payment}
+
+fin-commande:
+    path:   /fin-commande
+    defaults: { _controller: FCReservationBundle:Reserve:finCommande }
