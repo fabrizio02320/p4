@@ -5,25 +5,27 @@ namespace FC\ReservationBundle\Services\ServCommande;
 use FC\ReservationBundle\Entity\Commande;
 use FC\ReservationBundle\Entity\Ticket;
 use FC\ReservationBundle\Services\ServTickets\FCServTickets;
+use Symfony\Component\Config\Definition\Exception\Exception;
+
 //use Doctrine\ORM\EntityManager;
 
 class FCServCommande
 {
     private $session;
     private $servTickets;
-//    private $em;
+    private $em;
 
     public function __construct
     (
         \Symfony\Component\HttpFoundation\Session\Session $session,
-        \FC\ReservationBundle\Services\ServTickets\FCServTickets $servTickets
+        \FC\ReservationBundle\Services\ServTickets\FCServTickets $servTickets,
 //        $nbTicketMaxParJour
-//        \Doctrine\ORM\EntityManager $em
+        \Doctrine\ORM\EntityManager $em
     )
     {
         $this->servTickets = $servTickets;
 //        $this->nbTicketsMaxParJour = 1000;
-//        $this->em = $em;
+        $this->em = $em;
         $this->session = $session;
     }
 
@@ -42,6 +44,9 @@ class FCServCommande
         if($commande === null){
             $commande = new Commande();
             $this->session->set('commande', $commande);
+
+            // et si une ancienne référence de commande est en mémoire, on la supprime
+            $this->session->remove('refCommande');
         }
 
         // vérifie et ajoute d'éventuel ticket en session
@@ -52,6 +57,7 @@ class FCServCommande
 
     public function validCommande(Commande $commande)
     {
+        // todo fonction à implémenter
         $commandeValid = false;
 
         // vérification de la date de la visite
@@ -59,16 +65,7 @@ class FCServCommande
 
             $commandeValid = true;
 
-            // si la commande possède des tickets, on les enregistre en session
-            // pour les persister qu'à la fin de la commande
-//            if($commande->getNbTicket() > 0){
-//                $this->enregTicketsSession($commande);
-//            }
         }
-
-        // si la commande est valide, on la persiste pour réserver les disponibilités en bd
-//        $this->em->persist($commande);
-//        $em = $this->getDoctrine()->getManager();
 
         return $commandeValid;
     }
@@ -113,9 +110,7 @@ class FCServCommande
     public function getTicketSession($commande){
         $ticketsSession = $this->session->get('tickets');
 
-        // s'il y a bien des tickets en session
         if(count($ticketsSession) > 0){
-//            echo '<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />Ticket en session';
             foreach($ticketsSession as $ticket){
                 $commande->addTicket($ticket);
             }
@@ -190,36 +185,50 @@ class FCServCommande
      *
      */
     public function resetCommande(){
-        $this->session->remove('tickets');
         $this->session->remove('commande');
         $this->initCommande();
     }
 
-    public function test(){
-        echo '<br /><br /><br /><br /><br /><br /><br /><br /><br />Test';
-    }
-
     /**
-     * Sauvegarde les tickets de la commande en session pour ne les persister qu'à la fin
+     * Enregistre la commande en base de donnée
+     * envoie l'email de confirmation
+     * et nettoie si enregistrement ok
      *
      * @param Commande $commande
      * @return bool
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function enregTicketsSession(Commande $commande){
-        $listeTickets = array();
-        foreach ($commande->getTickets() as $ticket){
-//            echo '<br /><br /><br /><br /><br /><br /><br /><br /><br />Enreg Ticket Session ';
-            // calcul du prix du ticket
+    public function enregCommande(Commande $commande){
+        try{
+            // on persist les tickets et la commande
+            foreach($commande->getTickets() as $ticket){
+                $this->em->persist($ticket);
+            }
+            $this->em->persist($commande);
+            $this->em->flush();
 
-            // garde le ticket de côté
-            array_push($listeTickets, $ticket);
+            // email de confirmation
+            // todo
 
-            // retire le ticket de la commande (pour le persister qu'à la fin)
-            $commande->removeTicket($ticket);
+            // garde en session la ref de la commande
+            $this->session->set('refCommande', $commande->getRef());
+
+            // nettoie les sessions commande et tickets
+            $this->resetCommande();
+
+            return true;
         }
+        catch(Exception $e){
+            $this->session->getFlashBag()->add('danger', 'Une erreur est survenue dans l\'enregistrement de votre commande, 
+                veuillez vous rapprocher de notre service client avec votre email et la référence de votre commande : '. $commande->getRef());
+            return false;
+        }
+    }
 
-        // on enregistre les tickets en session
-        $this->session->set('tickets', $listeTickets);
-        return true;
+    /**
+     * @return mixed
+     */
+    public function getRefCommande(){
+        return $this->session->get('refCommande');
     }
 }
