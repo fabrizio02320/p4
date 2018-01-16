@@ -7,3 +7,11 @@ services:
     arguments:
       - '@session'
       - '@fc_reserve.servtickets'
+      - '@doctrine.orm.entity_manager'
+
+  fc_reserve.servstripe:
+    class: FC\ReservationBundle\Services\ServStripe\FCServStripe
+    arguments:
+      - '@fc_reserve.servcommande'
+      - '@session'
+      - '%stripe_secret_key%'
