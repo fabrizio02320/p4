@@ -14,10 +14,12 @@
         {% for message in messages %}
             {% if label in typeMessage %}
                 {% set bg = 'bg-' ~ label %}
+                {% set text = 'text-' ~ label %}
             {% else %}
                 {% set bg = 'bg-info' %}
+                {% set bg = 'text-info' %}
             {% endif %}
-            <div class="{{ bg }} text-center {# text-danger #} col-sm-4 col-sm-offset-4 col-xs-8 col-xs-offset-2">
+            <div class="{{ bg }} text-center {{ text }} col-sm-4 col-sm-offset-4 col-xs-8 col-xs-offset-2">
                 <p> {{ message }} </p>
             </div>
         {% endfor %}
