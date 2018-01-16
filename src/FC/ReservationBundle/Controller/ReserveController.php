@@ -136,9 +136,7 @@ class ReserveController extends Controller {
         $refCommande = $servCommande->getRefCommande();
 
         // si la commande n'est pas finalisé, la refCommande est null...
-        if(!$refCommande){
-            // todo
-            echo '<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />Ref commande null... '. $refCommande;
+        if($refCommande === null){
             return $this->redirectToRoute('info-visite');
         }
 
