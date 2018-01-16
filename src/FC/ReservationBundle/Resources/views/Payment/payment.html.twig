@@ -23,14 +23,23 @@
                     src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                     data-key="{{ stripe_public_key }}"
                     data-amount="{{ commande.prix * 100 }}"
-                    data-name="Paiement de votre commande"
-                    data-description="Widget"
+                    data-name="Réservation"
+                    data-description="Vous recevrez vos tickets par email"
                     data-image="{{ asset('bundles/fcreservation/images/louvre-logo.jpg') }}"
                     data-locale="auto"
-                    data-currency="eur">
+                    data-currency="eur"
+                    data-email="{{ commande.courriel }}">
             </script>
-            // bouton ?
+            <button class="btn btn-primary">Paiement CB</button>
         </form>
 
     </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        $('.stripe-button-el').hide();
+    </script>
+
 {% endblock %}
