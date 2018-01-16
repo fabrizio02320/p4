@@ -1,0 +1,23 @@
+{% extends "FCReservationBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Commande terminée{% endblock %}
+
+{% block body %}
+
+    <fieldset class="row">
+        <legend>Commande terminée - <strong>référence {{ refCommande }}</strong></legend>
+        <div id="finCommande">
+            <p>
+                Votre commande est validée. Vous allez recevoir un mail de confirmation avec les informations de votre commande.
+                Vous devrez vous munir de ce mail ou de la référence de votre commande le jour de votre visite.
+            </p>
+        </div>
+
+        <p class="text-center">Le musée du Louvre vous remercie pour votre réservation.</p>
+
+        <p class="text-center">
+            <a class="btn btn-default" href="{{ path('home') }}">ACCUEIL</a>
+        </p>
+    </fieldset><br />
+
+{% endblock %}
