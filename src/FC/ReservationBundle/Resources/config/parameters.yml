@@ -1,1 +1,10 @@
 parameters:
+  stripe_public_key: pk_test_L8Ng8NmhkxlW9Bvgf0ZFvoCs
+  stripe_secret_key: sk_test_VMqI9mhC36RFyGsliCdcVzKI
+  ageMaxEnfant: 12
+  ageMaxGratuit: 3
+  ageMinSenior: 60
+  tarifReduit: 10
+  tarifEnfant: 8
+  tarifNormal: 16
+  tarifSenior: 12
