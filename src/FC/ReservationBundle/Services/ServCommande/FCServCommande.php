@@ -68,7 +68,7 @@ class FCServCommande
         $commandeValid = false;
 
         // vérification de la date de la visite
-        if($this->validDate($commande)){
+        if($this->validDate($commande) && $this->verifNbTicket($commande)){
 
             $commandeValid = true;
 
@@ -235,5 +235,30 @@ class FCServCommande
      */
     public function getRefCommande(){
         return $this->session->get('refCommande');
+    }
+
+    public function verifNbTicket(Commande $commande){
+        // récupération du nombre de place restante sur la date de la visite souhaitée
+        $nbTicketReserve = $this->em->getRepository('FCReservationBundle:Commande')
+            ->getNbTickets($commande->getDateVisite());
+        $nbPlaceRestante = $this->nbTicketsMaxJour - $nbTicketReserve;
+
+        // si pas de place pour le jour choisi
+        if($nbPlaceRestante < 1){
+            $this->session->getFlashBag()->add("warning", "Il n'y a plus de ticket disponible pour le jour que vous demandez.");
+            return false;
+        }
+
+        // s'il reste de la place, mais moins que le nombre de ticket demandé
+        if($nbPlaceRestante < $commande->getNbTicket()){
+            if($nbPlaceRestante === 1){
+                $this->session->getFlashBag()->add("warning", "Il ne reste que ". $nbPlaceRestante ." ticket disponible pour le jour demandé.");
+            } else {
+                $this->session->getFlashBag()->add("warning", "Il ne reste que ". $nbPlaceRestante ." tickets disponibles pour le jour demandé.");
+            }
+            return false;
+        }
+
+        return true;
     }
 }
