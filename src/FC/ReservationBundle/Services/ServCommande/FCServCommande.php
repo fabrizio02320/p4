@@ -7,26 +7,36 @@ use FC\ReservationBundle\Entity\Ticket;
 use FC\ReservationBundle\Services\ServTickets\FCServTickets;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
-//use Doctrine\ORM\EntityManager;
-
 class FCServCommande
 {
     private $session;
     private $servTickets;
     private $em;
+    private $nbTicketsMaxJour;
+    private $heureDebDemiJournee;
 
-    public function __construct
+    /**
+     * FCServCommande constructor.
+     * @param \Symfony\Component\HttpFoundation\Session\Session $session
+     * @param \Doctrine\ORM\EntityManager $em
+     * @param FCServTickets $servTickets
+     * @param $nbTicketsMaxJour
+     * @param $heureDebDemiJournee
+     */
+    function __construct
     (
         \Symfony\Component\HttpFoundation\Session\Session $session,
+        \Doctrine\ORM\EntityManager $em,
         \FC\ReservationBundle\Services\ServTickets\FCServTickets $servTickets,
-//        $nbTicketMaxParJour
-        \Doctrine\ORM\EntityManager $em
+        $nbTicketsMaxJour,
+        $heureDebDemiJournee
     )
     {
-        $this->servTickets = $servTickets;
-//        $this->nbTicketsMaxParJour = 1000;
-        $this->em = $em;
         $this->session = $session;
+        $this->em = $em;
+        $this->servTickets = $servTickets;
+        $this->nbTicketsMaxJour = $nbTicketsMaxJour;
+        $this->heureDebDemiJournee = $heureDebDemiJournee;
     }
 
     /**

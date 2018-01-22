@@ -14,8 +14,8 @@ services:
     class: FC\ReservationBundle\Services\ServCommande\FCServCommande
     arguments:
       - '@session'
+      - "@doctrine.orm.entity_manager"
       - '@fc_reserve.servtickets'
-      - '@doctrine.orm.entity_manager'
       - '%nbTicketsMaxJour%'
       - '%heureDebDemiJournee%'
 
