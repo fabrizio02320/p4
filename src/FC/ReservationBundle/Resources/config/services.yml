@@ -1,6 +1,14 @@
 services:
   fc_reserve.servtickets:
     class: FC\ReservationBundle\Services\ServTickets\FCServTickets
+    arguments:
+      - '%ageMaxEnfant%'
+      - '%ageMaxGratuit%'
+      - '%ageMinSenior%'
+      - '%tarifReduit%'
+      - '%tarifEnfant%'
+      - '%tarifNormal%'
+      - '%tarifSenior%'
 
   fc_reserve.servcommande:
     class: FC\ReservationBundle\Services\ServCommande\FCServCommande
@@ -8,6 +16,8 @@ services:
       - '@session'
       - '@fc_reserve.servtickets'
       - '@doctrine.orm.entity_manager'
+      - '%nbTicketsMaxJour%'
+      - '%heureDebDemiJournee%'
 
   fc_reserve.servstripe:
     class: FC\ReservationBundle\Services\ServStripe\FCServStripe

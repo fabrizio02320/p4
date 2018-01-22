@@ -8,3 +8,5 @@ parameters:
   tarifEnfant: 8
   tarifNormal: 16
   tarifSenior: 12
+  nbTicketsMaxJour: 1000
+  heureDebDemiJournee: 14

@@ -6,16 +6,38 @@ use FC\ReservationBundle\Entity\Commande;
 use FC\ReservationBundle\Entity\Ticket;
 
 class FCServTickets{
-    private $ageMaxEnfant = 12;
-    private $ageMaxGratuit = 3;
-    private $ageMinSenior = 60;
-    private $tarifReduit = 10;
-    private $tarifEnfant = 8;
-    private $tarifNormal = 16;
-    private $tarifSenior = 12;
+    private $ageMaxEnfant;
+    private $ageMaxGratuit;
+    private $ageMinSenior;
+    private $tarifReduit;
+    private $tarifEnfant;
+    private $tarifNormal;
+    private $tarifSenior;
+
+    /**
+     * FCServTickets constructor.
+     * @param $ageMaxEnfant
+     * @param $ageMaxGratuit
+     * @param $ageMinSenior
+     * @param $tarifReduit
+     * @param $tarifEnfant
+     * @param $tarifNormal
+     * @param $tarifSenior
+     */
+    public function __construct($ageMaxEnfant, $ageMaxGratuit, $ageMinSenior, $tarifReduit, $tarifEnfant, $tarifNormal, $tarifSenior)
+    {
+        $this->ageMaxEnfant = $ageMaxEnfant;
+        $this->ageMaxGratuit = $ageMaxGratuit;
+        $this->ageMinSenior = $ageMinSenior;
+        $this->tarifReduit = $tarifReduit;
+        $this->tarifEnfant = $tarifEnfant;
+        $this->tarifNormal = $tarifNormal;
+        $this->tarifSenior = $tarifSenior;
+    }
 
     /**
      * @param Ticket $ticket
+     * @param Commande $commande
      */
     public function calculPrixTicket(Ticket $ticket,Commande $commande){
         $dateVisite = $commande->getDateVisite();
