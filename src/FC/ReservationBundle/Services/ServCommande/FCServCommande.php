@@ -81,7 +81,7 @@ class FCServCommande
     {
         // vérification sur les jours de fermeture récurrent
         $dateVisite = $commande->getDateVisite();
-//        $aujourdhui = new \DateTime("now", new \DateTimeZone('Europe/Paris'));
+        $aujourdhui = new \DateTime("now", new \DateTimeZone('Europe/Paris'));
 
         $jourInterdit = array(
             '01/01',
@@ -106,7 +106,18 @@ class FCServCommande
             return false;
         }
 
-//        $em = $this->get('doctrine.orm.entity_manager');
+        // vérification si la date de visite est pour le jour même,
+        // si demi-journée est sélectionné à partir de 14H
+        if(!$commande->getDemiJournee()){
+            if(
+                $dateVisite->format('Ymd') === $aujourdhui->format('Ymd')
+                && $aujourdhui->format('H') >= $this->heureDebDemiJournee
+            )
+            {
+                $this->session->getFlashBag()->add('warning', "Vous ne pouvez pas choisir des tickets 'Journée' pour le jour-même après 14H00.");
+                return false;
+            }
+        }
 
         return true;
     }
