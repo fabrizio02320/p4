@@ -10,4 +10,15 @@ namespace FC\ReservationBundle\Repository;
  */
 class CommandeRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getNbTickets($dateVisite){
+        $query = $this->createQueryBuilder('a')
+            ->where('a.dateVisite = :dateVisite')
+            ->setParameter('dateVisite', $dateVisite)
+            ->select('SUM(a.nbTicket) as nbTicketTotal')
+            ->getQuery();
+
+//        return $query->getResult();
+        $nbTicketTotal = $query->getResult()[0]['nbTicketTotal'];
+        return $nbTicketTotal;
+    }
 }
