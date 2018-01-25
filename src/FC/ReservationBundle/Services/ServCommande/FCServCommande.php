@@ -6,6 +6,10 @@ use FC\ReservationBundle\Entity\Commande;
 use FC\ReservationBundle\Entity\Ticket;
 use FC\ReservationBundle\Services\ServTickets\FCServTickets;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Bundle\TwigBundle\TwigEngine;
+use Doctrine\ORM\EntityManager;
+use Swift_Mailer;
 
 class FCServCommande
 {
@@ -28,13 +32,13 @@ class FCServCommande
      */
     function __construct
     (
-        \Symfony\Component\HttpFoundation\Session\Session $session,
-        \Doctrine\ORM\EntityManager $em,
-        \FC\ReservationBundle\Services\ServTickets\FCServTickets $servTickets,
+        Session $session,
+        EntityManager $em,
+        FCServTickets $servTickets,
         $nbTicketsMaxJour,
         $heureDebDemiJournee,
-        \Swift_Mailer $mailer,
-        \Symfony\Bundle\TwigBundle\TwigEngine $templating,
+        Swift_Mailer $mailer,
+        TwigEngine $templating,
         $mailerFrom
     )
     {
@@ -211,6 +215,7 @@ class FCServCommande
      * @param Commande $commande
      * @return bool
      * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Twig\Error\Error
      */
     public function enregCommande(Commande $commande){
         try{
@@ -276,17 +281,20 @@ class FCServCommande
      * @throws \Twig\Error\Error
      */
     public function sendEmailConfirmation(Commande $commande){
+        $mail = \Swift_Message::newInstance();
+
+        $logo = $mail->embed(\Swift_Image::fromPath('bundles/fcreservation/images/louvre-logo-small.jpg'));
+
         $contenu = $this->templating->render('@FCReservation/Reserve/ticketEmail.html.twig', array(
-            'commande' => $commande
+            'commande' => $commande,
+            'heureDebDemiJournee' => $this->heureDebDemiJournee,
+            'logoImage' => $logo,
         ));
 
-        $mail = \Swift_Message::newInstance()
+        $mail
             ->setSubject('Confirmation de la commande du musee du Louvre')
-//            ->setTo($commande->getCourriel())
             ->setFrom($this->mailerFrom)
-//            ->setFrom('contact@yuqi.fr')
-//            ->setTo('mairie.publie.1@projet1.yuqi.fr')
-            ->setTo('fabien.cagniet@gmail.com')
+            ->setTo($commande->getCourriel())
             ->setContentType('text/html')
             ->setBody($contenu)
         ;
