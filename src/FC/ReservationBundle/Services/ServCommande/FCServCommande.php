@@ -14,6 +14,9 @@ class FCServCommande
     private $em;
     private $nbTicketsMaxJour;
     private $heureDebDemiJournee;
+    private $mailer;
+    private $templating;
+    private $mailerFrom;
 
     /**
      * FCServCommande constructor.
@@ -29,7 +32,10 @@ class FCServCommande
         \Doctrine\ORM\EntityManager $em,
         \FC\ReservationBundle\Services\ServTickets\FCServTickets $servTickets,
         $nbTicketsMaxJour,
-        $heureDebDemiJournee
+        $heureDebDemiJournee,
+        \Swift_Mailer $mailer,
+        \Symfony\Bundle\TwigBundle\TwigEngine $templating,
+        $mailerFrom
     )
     {
         $this->session = $session;
@@ -37,6 +43,9 @@ class FCServCommande
         $this->servTickets = $servTickets;
         $this->nbTicketsMaxJour = $nbTicketsMaxJour;
         $this->heureDebDemiJournee = $heureDebDemiJournee;
+        $this->mailer = $mailer;
+        $this->templating = $templating;
+        $this->mailerFrom = $mailerFrom;
     }
 
     /**
@@ -213,7 +222,7 @@ class FCServCommande
             $this->em->flush();
 
             // email de confirmation
-            // todo
+            $this->sendEmailConfirmation($commande);
 
             // garde en session la ref de la commande
             $this->session->set('refCommande', $commande->getRef());
@@ -260,5 +269,28 @@ class FCServCommande
         }
 
         return true;
+    }
+
+    /**
+     * @param Commande $commande
+     * @throws \Twig\Error\Error
+     */
+    public function sendEmailConfirmation(Commande $commande){
+        $contenu = $this->templating->render('@FCReservation/Reserve/ticketEmail.html.twig', array(
+            'commande' => $commande
+        ));
+
+        $mail = \Swift_Message::newInstance()
+            ->setSubject('Confirmation de la commande du musee du Louvre')
+//            ->setTo($commande->getCourriel())
+            ->setFrom($this->mailerFrom)
+//            ->setFrom('contact@yuqi.fr')
+//            ->setTo('mairie.publie.1@projet1.yuqi.fr')
+            ->setTo('fabien.cagniet@gmail.com')
+            ->setContentType('text/html')
+            ->setBody($contenu)
+        ;
+
+        $this->mailer->send($mail);
     }
 }

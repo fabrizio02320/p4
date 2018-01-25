@@ -14,10 +14,13 @@ services:
     class: FC\ReservationBundle\Services\ServCommande\FCServCommande
     arguments:
       - '@session'
-      - "@doctrine.orm.entity_manager"
+      - '@doctrine.orm.entity_manager'
       - '@fc_reserve.servtickets'
       - '%nbTicketsMaxJour%'
       - '%heureDebDemiJournee%'
+      - '@mailer'
+      - '@templating'
+      - '%mailer_user%'
 
   fc_reserve.servstripe:
     class: FC\ReservationBundle\Services\ServStripe\FCServStripe
