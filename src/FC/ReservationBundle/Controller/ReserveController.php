@@ -111,6 +111,9 @@ class ReserveController extends Controller {
         $form = $this->get('form.factory')->create(CommandeType::class, $commande);
         $form->handleRequest($request);
 
+        // todo remove
+        $servCommande->sendEmailConfirmation($commande);
+
         // vérification du formulaire reçu
         // si formulaire ok, redirige vers l'étape pour le paiement
         if($form->isSubmitted() && $form->isValid()){

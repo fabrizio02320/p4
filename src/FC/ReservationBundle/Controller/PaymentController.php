@@ -29,8 +29,6 @@ class PaymentController extends Controller{
                 if($servCommande->enregCommande($commande)){
                     return $this->redirectToRoute('fin-commande');
                 }
-
-                // todo
             }
         }
 
