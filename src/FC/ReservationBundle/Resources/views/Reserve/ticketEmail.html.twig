@@ -1,0 +1,39 @@
+<img src="{{ logoImage }}" alt="logo du musée du louvre">
+<h3>Billetterie du musée du Louvre</h3>
+
+{% if commande.civ == 'Monsieur' %}
+    <p>Cher Monsieur {{ commande.nom }},</p>
+{% else %}
+    <p>Chère Madame {{ commande.nom }},</p>
+{% endif %}
+
+<p>
+    Le musée du Louvre vous remercie pour votre réservation.
+    <br /><strong>Veuillez vous munir de cet email pour le jour de votre visite.</strong>
+</p>
+
+<p>
+    <strong>CODE DE RESERVATION : {{ commande.ref }} </strong>
+    <br />Montant total de la réservation : {{ commande.prix }} euros
+</p>
+
+<p>
+    Votre réservation est composée de {{ commande.nbTicket }} ticket{% if commande.nbTicket > 1 %}s{% endif %} {% if commande.demiJournee %}demi-{% endif %}journée,
+    pour la date du <strong>{{ commande.dateVisite|date("d/m/Y") }}</strong>
+    {% if commande.demiJournee %}
+        <br />Avec ces tickets, vous ne pourrez accéder au Musée du Louvre qu'à partir de {{ heureDebDemiJournee }}H.
+    {% endif %}
+</p>
+
+<p>Voici ci-dessous {% if commande.nbTicket > 1 %}les visiteurs enregistrés :{% else %}le visiteur enregistré :{% endif %}</p>
+<ul>
+    {% for ticket in commande.tickets %}
+    <li>
+        <p>{{ ticket.nom|upper }} {{ ticket.prenom|capitalize }}, né(e) le {{ ticket.ddn|date("d/m/Y") }}, montant du ticket : {{ ticket.prix }} euros.
+        {% if ticket.tarifReduit %}
+            <i><strong>[Tarif réduit]</strong><br />Présentation d'un justificatif obligatoire à l'entrée du musée.</i>
+        {% endif %}
+        </p>
+    </li>
+    {% endfor %}
+</ul>
