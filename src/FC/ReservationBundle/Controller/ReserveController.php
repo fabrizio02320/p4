@@ -58,7 +58,7 @@ class ReserveController extends Controller {
         // récupération des outils d'une commande
         $servCommande = $this->get('fc_reserve.servcommande');
 
-        // Récupération des informations concernant la commande rempli à l'étape 1
+        // Récupération de la commande
         $commande = $servCommande->initCommande();
 
         // si pb dans la commande, redirige à l'étape précédente
@@ -76,17 +76,22 @@ class ReserveController extends Controller {
         // vérification du formulaire reçu
         // si formulaire ok, redirige vers l'étape pour le paiement
         if($form->isSubmitted() && $form->isValid()){
-            return $this->redirectToRoute('recap-commande');
-        } else {
+            // mise à jour du nombre de tickets
+            $commande->setNbTicket(count($commande->getTickets()));
 
-            // si pas de formulaire reçu ou si formulaire reçu pas ok,
-            // redirige à l'étape précédente
-            return $this->render('FCReservationBundle:Reserve:infoTicket.html.twig', array(
-                'form' => $form->createView(),
-                'commande' => $commande,
-                'pathModifyCommande' => 'info-visite',
-            ));
+            if($servCommande->validCommande($commande)){
+                return $this->redirectToRoute('recap-commande');
+            }
+
         }
+
+        // si pas de formulaire reçu ou si formulaire reçu pas ok,
+        // redirige à l'étape précédente
+        return $this->render('FCReservationBundle:Reserve:infoTicket.html.twig', array(
+            'form' => $form->createView(),
+            'commande' => $commande,
+            'pathModifyCommande' => 'info-visite',
+        ));
     }
 
     /*
@@ -112,7 +117,7 @@ class ReserveController extends Controller {
         $form->handleRequest($request);
 
         // todo remove
-        $servCommande->sendEmailConfirmation($commande);
+//        $servCommande->sendEmailConfirmation($commande);
 
         // vérification du formulaire reçu
         // si formulaire ok, redirige vers l'étape pour le paiement
