@@ -283,6 +283,7 @@ class FCServCommande
     public function sendEmailConfirmation(Commande $commande){
         $mail = \Swift_Message::newInstance();
 
+        // pour l'ajout du logo dans l'email
         $logo = $mail->embed(\Swift_Image::fromPath('bundles/fcreservation/images/louvre-logo-small.jpg'));
 
         $contenu = $this->templating->render('@FCReservation/Reserve/ticketEmail.html.twig', array(
@@ -300,5 +301,9 @@ class FCServCommande
         ;
 
         $this->mailer->send($mail);
+    }
+
+    public function getMailerFrom(){
+        return $this->mailerFrom;
     }
 }
