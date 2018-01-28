@@ -21,13 +21,22 @@
         {# Affiche les erreurs générales du formulaire #}
         {{ form_errors(form) }}
 
+        <div id="ticket-container"
+             data-template='
+                {% filter escape %}
+                    <h3><i class="glyphicon glyphicon-user"></i>Ticket n°<span class="num-ticket"></span> :</h3>
+                    {{ include('@FCReservation/Reserve/prototypeTicket.html.twig', { 'ticket': form.tickets.vars.prototype}) }}
+                    <br />
+                {% endfilter %}'
+        >
         {% for ticket in form.tickets %}
-            <div class="ticket">
+            <div class="tickets">
                 <h3><i class="glyphicon glyphicon-user"></i>Ticket n°{{ loop.index }} : </h3>
 
                 {{ include('FCReservationBundle:Reserve:prototypeTicket.html.twig', {'ticket': ticket}) }}
             </div><br />
         {% endfor %}
+        </div>
 
         {{ form_widget(form.Suivant, {'attr': {'class': 'commande-submit btn btn-primary'}}) }}
 
@@ -36,4 +45,10 @@
         {{ form_end(form) }}
 
     </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/fcreservation/js/infoTicket.js') }}"></script>
 {% endblock %}
