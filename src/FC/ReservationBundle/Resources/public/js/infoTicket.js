@@ -29,6 +29,11 @@ $(document).ready(function(){
         addBtnDelTicket($('#' + j));
     }
 
+    // s'il n'y a qu'un ticket, retire le bouton supprimer
+    if(index === 1){
+        $('.tickets').find('.del-ticket').remove();
+    }
+
     function addTicket(){
         // création d'un template de ticket
         var template = $('#ticket-container').attr('data-template')
