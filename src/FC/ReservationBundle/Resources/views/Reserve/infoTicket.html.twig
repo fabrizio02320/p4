@@ -23,21 +23,24 @@
 
         <div id="ticket-container"
              data-template='
-                {% filter escape %}
+                {% filter escape %}{% spaceless %}
+                    <div class="tickets"><br />
                     <h3><i class="glyphicon glyphicon-user"></i>Ticket n°<span class="num-ticket"></span> :</h3>
                     {{ include('@FCReservation/Reserve/prototypeTicket.html.twig', { 'ticket': form.tickets.vars.prototype}) }}
-                    <br />
-                {% endfilter %}'
+                    </div>
+                {% endspaceless %}{% endfilter %}'
         >
         {% for ticket in form.tickets %}
             <div class="tickets">
-                <h3><i class="glyphicon glyphicon-user"></i>Ticket n°{{ loop.index }} : </h3>
+                <br />
+                <h3><i class="glyphicon glyphicon-user"></i>Ticket n°<span class="num-ticket">{{ loop.index }}</span> : </h3>
 
                 {{ include('FCReservationBundle:Reserve:prototypeTicket.html.twig', {'ticket': ticket}) }}
-            </div><br />
+            </div>
         {% endfor %}
         </div>
 
+        <br /><br />
         {{ form_widget(form.Suivant, {'attr': {'class': 'commande-submit btn btn-primary'}}) }}
 
         {{ form_rest(form) }}
