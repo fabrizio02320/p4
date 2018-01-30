@@ -23,6 +23,8 @@
     </head>
 
     <body>
+    <div class="fond-principal">
+
         <div class="container">
 
             <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -48,17 +50,15 @@
                 </div>
             </nav>
 
+            <div id="header" class="jumbotron"></div>
+
             <div class="corps">
 
-                <div id="header" class="jumbotron">
-                    <h1>Billetterie du Louvre</h1>
-                    <p>
-                        Ce site est purement fictif et n'est utilisé que dans le cadre du projet 4 de Chef de projet Multimédia chez OpenClassRooms.
-                    </p>
-                </div>
-
                 {{ include('FCReservationBundle:Reserve:infoMessages.html.twig') }}
-                {% block body %}{% endblock %}
+
+                <div id="contenu-principal">
+                    {% block body %}{% endblock %}
+                </div>
 
             </div>
             <footer>
@@ -73,5 +73,7 @@
             {#<script src="{{ asset('bundles/fcreservation/js/info.js') }}"></script>#}
 
         {% endblock %}
+
+    </div>
     </body>
 </html>

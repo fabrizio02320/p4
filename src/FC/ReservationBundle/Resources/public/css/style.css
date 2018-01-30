@@ -1,6 +1,11 @@
 /*
 * Menu et bandeau
  */
+.navbar{
+    background-color: rgba(178, 135, 73, 0.8);
+    /*color: #000000;*/
+}
+
 .navbar-brand{
     display: flex;
     align-items: center;
@@ -8,11 +13,78 @@
 }
 
 .navbar-brand img {
-    margin-left: 30px;
+    margin-left: 15px;
     height: 100%;
     width: auto;
 }
 
 #titre-nav{
+    color: black;
     margin-left: 10px;
+}
+
+.navbar-inverse .navbar-nav li a{
+    color: black;
+}
+
+#titre-nav:hover,
+#titre-nav:focus,
+.navbar-inverse .navbar-nav li a:hover,
+.navbar-inverse .navbar-nav li a:focus{
+    color: white;
+}
+
+.jumbotron{
+    background-image: url("../images/jumbotron.jpg");
+    /*background-size: cover;*/
+    background-size: 100% 100%;
+    height: 200px;
+    margin-top: 70px;
+}
+
+/*
+* Général
+ */
+body{
+    background-image: url("../images/fond1.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.corps{
+    /*margin-top: 10px;*/
+    padding-top: 10px;
+    margin-bottom: 15px;
+}
+
+.corps, footer{
+    background-color: rgba(178, 135, 73, 0.5);
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+#contenu-principal, footer p{
+    background-color: rgba(255, 255, 255, 0.8);
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 15px;
+    padding-top: 10px;
+}
+
+/*
+* Responsive du site
+ */
+@media all and (max-width: 768px){
+    .jumbotron{
+        margin-left: -15px;
+        margin-right: -15px;
+        margin-top: 50px;
+        margin-bottom: 0px;
+    }
+
+    .corps, footer{
+        margin-left: -15px;
+        margin-right: -15px;
+    }
 }
