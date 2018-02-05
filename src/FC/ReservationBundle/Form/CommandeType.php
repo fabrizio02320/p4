@@ -2,13 +2,10 @@
 
 namespace FC\ReservationBundle\Form;
 
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,16 +25,21 @@ class CommandeType extends AbstractType
                 'choices' =>array(
                     'Madame'        => 'Madame',
                     'Monsieur'      => 'Monsieur',
-                )
+                ),
+                'label' => 'Civilité',
             ))
             ->add('nom')
-            ->add('prenom')
+            ->add('prenom', TextType::class, array(
+                'label' => 'Prénom',
+            ))
             ->add('courriel', RepeatedType::class, array(
                 'type' => EmailType::class,
                 'first_options' => array('label' => 'Adresse email'),
                 'second_options' => array('label' => 'Confirmer l\'adresse email'),
             ))
-            ->add('Suivant',    SubmitType::class)
+            ->add('Suivant',    SubmitType::class, array(
+                'attr' => array('class' => 'btn btn-primary col-lg-offset-4 col-lg-4 col-xs-offset-3 col-xs-6')
+            ))
         ;
     }
     

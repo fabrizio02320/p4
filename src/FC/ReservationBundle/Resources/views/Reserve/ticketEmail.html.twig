@@ -2,9 +2,9 @@
 <h3>Billetterie du musée du Louvre</h3>
 
 {% if commande.civ == 'Monsieur' %}
-    <p>Cher Monsieur {{ commande.nom }},</p>
+    <p>Cher Monsieur {{ commande.nom|capitalize }},</p>
 {% else %}
-    <p>Chère Madame {{ commande.nom }},</p>
+    <p>Chère Madame {{ commande.nom|capitalize }},</p>
 {% endif %}
 
 <p>
@@ -37,3 +37,5 @@
     </li>
     {% endfor %}
 </ul>
+
+<p>Nous vous souhaitons une bonne visite du Musée du Louvre !</p>

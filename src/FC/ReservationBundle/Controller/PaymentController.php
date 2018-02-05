@@ -37,6 +37,7 @@ class PaymentController extends Controller{
             'commande' => $commande,
             'stripe_public_key' => $this->getParameter('stripe_public_key'),
             'pathModifyCommande' => 'recap-commande',
+            'heureDebDemiJournee' => $servCommande->getHeureDebDemiJournee(),
         ));
     }
 }

@@ -7,7 +7,7 @@ $(document).ready(function(){
     var index = $listeTickets.length;
 
     // création du bouton d'ajout
-    var btnAdd = $('<button id="add-ticket" class="btn btn-default">Ajouter un ticket</button>');
+    var btnAdd = $('<button id="add-ticket" class="btn btn-warning col-lg-offset-2 col-lg-4 col-xs-6">Ajouter un ticket</button>');
 
     // ajout du bouton d'ajout juste avant le bouton suivant du formulaire
     $('.commande-submit:first').before(btnAdd);

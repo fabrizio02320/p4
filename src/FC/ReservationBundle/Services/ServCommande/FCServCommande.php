@@ -306,4 +306,8 @@ class FCServCommande
     public function getMailerFrom(){
         return $this->mailerFrom;
     }
+
+    public function getHeureDebDemiJournee(){
+        return $this->heureDebDemiJournee;
+    }
 }

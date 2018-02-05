@@ -11,12 +11,29 @@
         {# Affiche les erreurs générales du formulaire #}
         {{ form_errors(form) }}
 
-        <div class="form-group text-center">
+        <div class="form-group">
             <i class="glyphicon glyphicon-calendar"></i>
-            {{ form_label(form.dateVisite, "Sélectionnez le jour de votre visite") }}
+            {{ form_label(form.dateVisite, "Sélectionnez le jour de votre visite", {'attr': {'style': 'text-align : left'}}) }}
             {{ form_errors(form.dateVisite) }}
             {{ form_widget(form.dateVisite, {'attr': {'class': 'form-control text-center'}}) }}
         </div>
+
+        <div class="form-group">
+            <i class="glyphicon glyphicon-sort"></i>
+            {{ form_label(form.nbTicket, 'Nombre de ticket') }}
+            {{ form_errors(form.nbTicket) }}
+            {{ form_widget(form.nbTicket, {'attr': {'class': 'form-control', 'style': 'text-align : center'}}) }}
+        </div>
+
+        <div class="form-group">
+            <i class="glyphicon glyphicon-text-size"></i>
+            {{ form_label(form.demiJournee, 'Type de ticket') }}
+            {{ form_errors(form.demiJournee) }}
+            {{ form_widget(form.demiJournee, {'attr': {'class': 'form-control', 'style': 'text-align : center'}}) }}
+        </div>
+
+        <br />
+        {{ form_widget(form.Suivant, {'attr': {'class': 'commande-submit btn btn-primary col-lg-offset-4 col-lg-4 col-xs-offset-3 col-xs-6'}}) }}
 
         {{ form_rest(form) }}
 

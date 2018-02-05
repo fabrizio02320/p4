@@ -1,14 +1,13 @@
 
     <div class="form-group">
-        {{ form_label(ticket.tarifReduit, 'Cochez si tarif réduit') }}
+        {{ form_label(ticket.tarifReduit) }}
         {{ form_errors(ticket.tarifReduit) }}
-        {{ form_widget(ticket.tarifReduit,
-            {'attr': {'onclick':
-                'if(this.checked)
-                    {this.nextElementSibling.setAttribute("style", "display: block")}
-                 else{this.nextElementSibling.setAttribute("style", "display: none")}'
-            }}
-        ) }}
+        {{ form_widget(ticket.tarifReduit, {'attr':
+            {'onclick':
+                'if(this.checked){this.parentElement.parentElement.nextElementSibling.setAttribute("style", "display: block")}
+                else{this.parentElement.parentElement.nextElementSibling.setAttribute("style", "display: none")}'
+            }
+        }) }}
         <p class="info-tarif-reduit" style="display: none">
             <i>Il sera nécessaire de présenter votre carte d’étudiant, militaire ou équivalent lors de votre entrée dans le musée.</i>
         </p>
@@ -23,10 +22,28 @@
         {{ form_errors(ticket.prenom) }}
         {{ form_widget(ticket.prenom, {'attr': {'class': 'form-control'}}) }}
     </div>
+    {#<div class="form-group">#}
+        {#{{ form_label(ticket.ddn, 'Date de naissance') }}#}
+        {#{{ form_errors(ticket.ddn) }}#}
+        {#{{ form_widget(ticket.ddn) }}#}
+    {#</div>#}
     <div class="form-group">
         {{ form_label(ticket.ddn, 'Date de naissance') }}
         {{ form_errors(ticket.ddn) }}
-        {{ form_widget(ticket.ddn) }}
+        <br />
+        {#{{ form_widget(ticket.ddn.day) }}#}
+        {#{{ form_widget(ticket.ddn.month) }}#}
+        {#{{ form_widget(ticket.ddn.year) }}#}
+        {#<div class="ddn-form">#}
+            {#{{ form_widget(ticket.ddn.day, {'attr': {'style': 'width:33%'}}) }}#}
+            {#{{ form_widget(ticket.ddn.month, {'attr': {'style': 'width:33%'}}) }}#}
+            {#{{ form_widget(ticket.ddn.year, {'attr': {'style': 'width:33%'}}) }}#}
+        {#</div>#}
+        <div class="ddn-form">
+            {{ form_widget(ticket.ddn.day, {'attr': {'style': 'width:125%'}}) }}
+            {{ form_widget(ticket.ddn.month, {'attr': {'style': 'width:125%'}}) }}
+            {{ form_widget(ticket.ddn.year, {'attr': {'style': 'width:150%'}}) }}
+        </div>
     </div>
     <div class="form-group">
         {{ form_label(ticket.pays, 'Pays') }}

@@ -72,19 +72,40 @@ body{
     padding-top: 10px;
 }
 
+.table-recap-ticket{
+    width: 100%;
+    border: 1px solid black;
+}
+
+.table-recap-ticket th, .table-recap-ticket td{
+    padding: 5px;
+}
+
 /*
 * Responsive du site
  */
+
 @media all and (max-width: 768px){
     .jumbotron{
         margin-left: -15px;
         margin-right: -15px;
         margin-top: 50px;
-        margin-bottom: 0px;
+        margin-bottom: 0;
+        height: 150px;
     }
 
     .corps, footer{
         margin-left: -15px;
         margin-right: -15px;
+    }
+
+    #contenu-principal{
+        padding-left: 10px;
+        padding-right: 10px;
+        width: 100%;
+    }
+
+    body{
+        margin-right: 0;
     }
 }

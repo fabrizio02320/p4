@@ -6,42 +6,42 @@
 
     {{ include('FCReservationBundle::manageCommande.html.twig') }}
 
-    <fieldset class="row">
-        <legend>1 - Récapitulatif de votre commande</legend>
-        <div id="recapCommande">
-            <p>
-                Votre commande comporte {{ commande.nbTicket }} ticket{% if commande.nbTicket > 1 %}s{% endif %}
-                pour un montant total de <strong>{{ commande.prix }} euros</strong>.
-            </p>
-            <p>
-                Vous trouverez le détail de votre commande ci-dessous :
-            </p>
-            {% for ticket in commande.tickets %}
-                <div id="infoTicket{{ loop.index }}" class="bandeauTicket">
-                    <strong>TICKET N°{{ loop.index }}</strong>
-
-                    {{ include('FCReservationBundle:Reserve:recapTicket.html.twig', {'ticket': ticket}) }}
-
-                </div><br />
-            {% endfor %}
-        </div>
-    </fieldset><br />
-
-    <form method="post" class="row">
-        <fieldset>
-            <legend>2 - Information client</legend>
-            <div id="infoClient">
-
-                {{ form_start(form, {'attr': {'class': 'col-sm-offset-3 col-sm-6'}}) }}
-
-                {# Affiche les erreurs générales du formulaire #}
-                {{ form_errors(form) }}
-
-                {{ form_rest(form) }}
-
-                {{ form_end(form) }}
-
+    <div class="row">
+        <div class="col-sm-offset-3 col-sm-6">
+            <legend>1 - Récapitulatif de votre commande</legend>
+            <div id="recapCommande">
+                <p>
+                    Votre commande comporte <strong>{{ commande.nbTicket }} ticket{% if commande.nbTicket > 1 %}s{% endif %}</strong>,
+                    pour un montant total de <strong>{{ commande.prix }} euros</strong> qui est prévue le <strong>{{ commande.dateVisite|date("d/m/Y") }}
+                    {% if commande.demiJournee %} après {{ heureDebDemiJournee }}H{% endif %}.</strong><br />
+                    Vous trouverez le détail de votre commande ci-dessous :
+                </p>
             </div>
-        </fieldset><br />
-    </form>
+            {% for ticket in commande.tickets %}
+                {{ include('FCReservationBundle:Reserve:recapTicket.html.twig', {'ticket': ticket}) }}
+            {% endfor %}
+
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+        <form method="post" class="col-sm-offset-3 col-sm-6">
+
+                <legend>2 - Information client</legend>
+                <div id="infoClient">
+
+                    {{ form_start(form, {'attr': {'class': 'col-sm-offset-3 col-sm-6'}}) }}
+
+                    {# Affiche les erreurs générales du formulaire #}
+                    {{ form_errors(form) }}
+
+                    {{ form_rest(form) }}
+
+                    {{ form_end(form) }}
+
+                </div>
+            <br />
+        </form>
+    </div>
 {% endblock %}
