@@ -20,8 +20,8 @@ class TicketType extends AbstractType
     {
         $builder
             ->add('tarifReduit', CheckboxType::class, array(
-                'label'     => 'Cochez si tarif réduit',
                 'required'  => false,
+                'label' => 'Cochez si tarif réduit',
             ))
 //            ->add('prix')
             ->add('nom', TextType::class)
@@ -35,7 +35,7 @@ class TicketType extends AbstractType
 //            ))
             ->add('ddn', BirthdayType::class, array(
 //                'widget' => 'choice',
-                'format' => 'dd-MM-yyyy',
+                'format' => 'ddMMyyyy',
             ))
             ->add('pays', CountryType::class, array(
                 'preferred_choices' => array('FR')

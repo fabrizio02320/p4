@@ -6,33 +6,40 @@
 
     {{ include('FCReservationBundle::manageCommande.html.twig') }}
 
-    <fieldset class="row">
-        <legend>Paiement de votre commande</legend>
-        <div id="recapCommande">
-            <p>
-                Votre commande comporte <strong>{{ commande.nbTicket }} ticket{% if commande.nbTicket > 1 %}s{% endif %}</strong>
-                pour un montant total de <strong>{{ commande.prix }} euros</strong> et pour la date du <strong>{{ commande.dateVisite|date("d/m/Y") }}</strong>.
-            </p>
+    <div class="row">
+        <div class="col-sm-offset-3 col-sm-6">
+            <legend>Paiement de votre commande</legend>
+            <div id="recapCommande">
+                <p>
+                    Votre commande prévue le <strong>{{ commande.dateVisite|date("d/m/Y") }}
+                        {% if commande.demiJournee %} après {{ heureDebDemiJournee }}H{% endif %}</strong>
+                    comporte <strong>{{ commande.nbTicket }} ticket{% if commande.nbTicket > 1 %}s{% endif %}</strong>.<br />
+                </p>
+                <p>
+                    <strong>Montant total : {{ commande.prix }} euros</strong>
+                </p>
+            </div>
         </div>
-    </fieldset><br />
+    </div>
+    <br />
 
     <div class="row">
-
-        <form method="POST">
-            <script
-                    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                    data-key="{{ stripe_public_key }}"
-                    data-amount="{{ commande.prix * 100 }}"
-                    data-name="Réservation"
-                    data-description="Vous recevrez vos tickets par email"
-                    data-image="{{ asset('bundles/fcreservation/images/louvre-logo.jpg') }}"
-                    data-locale="auto"
-                    data-currency="eur"
-                    data-email="{{ commande.courriel }}">
-            </script>
-            <button class="btn btn-primary">Paiement CB</button>
-        </form>
-
+        <div class="col-sm-offset-3 col-sm-6">
+            <form method="POST">
+                <script
+                        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                        data-key="{{ stripe_public_key }}"
+                        data-amount="{{ commande.prix * 100 }}"
+                        data-name="Réservation"
+                        data-description="Vous recevrez vos tickets par email"
+                        data-image="{{ asset('bundles/fcreservation/images/louvre-logo.jpg') }}"
+                        data-locale="auto"
+                        data-currency="eur"
+                        data-email="{{ commande.courriel }}">
+                </script>
+                <button class="btn btn-primary  col-lg-offset-4 col-lg-4 col-xs-offset-3 col-xs-6">Paiement CB</button>
+            </form>
+        </div>
     </div>
 {% endblock %}
 

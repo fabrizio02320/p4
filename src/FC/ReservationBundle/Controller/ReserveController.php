@@ -116,9 +116,6 @@ class ReserveController extends Controller {
         $form = $this->get('form.factory')->create(CommandeType::class, $commande);
         $form->handleRequest($request);
 
-        // todo remove
-//        $servCommande->sendEmailConfirmation($commande);
-
         // vérification du formulaire reçu
         // si formulaire ok, redirige vers l'étape pour le paiement
         if($form->isSubmitted() && $form->isValid()){
@@ -132,6 +129,7 @@ class ReserveController extends Controller {
                 'commande' => $commande,
                 'pathModifyCommande' => 'info-ticket',
                 'servTicket' => $this->get('fc_reserve.servtickets'),
+                'heureDebDemiJournee' => $servCommande->getHeureDebDemiJournee(),
             ));
         }
     }

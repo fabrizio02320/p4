@@ -4,20 +4,25 @@
 
 {% block body %}
 
-    <fieldset class="row">
-        <legend>Commande terminée - <strong>référence {{ refCommande }}</strong></legend>
-        <div id="finCommande">
-            <p>
-                Votre commande est validée. Vous allez recevoir un mail de confirmation avec les informations de votre commande.
-                Vous devrez vous munir de ce mail ou de la référence de votre commande le jour de votre visite.
+    <div class="row">
+        <div class="col-sm-offset-3 col-sm-6">
+            <legend class="text-center">Commande terminée - <strong>référence {{ refCommande }}</strong></legend>
+            <div id="finCommande">
+                <p>
+                    Votre commande est validée. Vous allez recevoir un mail de confirmation avec les informations de votre commande.
+                </p>
+                <p>
+                    Vous devrez vous munir de ce mail ou de la référence de votre commande le jour de votre visite.
+                </p>
+            </div>
+
+            <p>Le musée du Louvre vous remercie pour votre réservation.</p>
+
+            <br />
+            <p class="text-center">
+                <a class="btn btn-primary text-center" href="{{ path('home') }}">ACCUEIL</a>
             </p>
         </div>
-
-        <p class="text-center">Le musée du Louvre vous remercie pour votre réservation.</p>
-
-        <p class="text-center">
-            <a class="btn btn-default" href="{{ path('home') }}">ACCUEIL</a>
-        </p>
-    </fieldset><br />
+    </div><br />
 
 {% endblock %}
