@@ -2,7 +2,7 @@
 
 namespace FC\ReservationBundle\Entity;
 
-//use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -53,7 +53,7 @@ class Commande
      *
      * @ORM\Column(name="nbTicket", type="smallint")
      */
-    private $nbTicket = 1;
+    private $nbTicket = 0;
 
     /**
      * @var string
@@ -125,7 +125,7 @@ class Commande
         $str = "ABCDEFGHIJKLMNOPQRSTUVWYZ";
         $str = substr(str_shuffle($str), 0, 4);
         $this->ref = $this->dateVisite->format("ymd") . $str;
-        $this->tickets = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tickets = new ArrayCollection();
     }
 
     /**
@@ -364,6 +364,13 @@ class Commande
     public function getTickets()
     {
         return $this->tickets;
+    }
+
+    /**
+     * @param $tickets
+     */
+    public function setTickets($tickets){
+        $this->tickets = $tickets;
     }
 
     /**

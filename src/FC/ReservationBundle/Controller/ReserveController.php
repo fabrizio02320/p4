@@ -37,6 +37,7 @@ class ReserveController extends Controller {
 
         // vérification du formulaire reçu
         if($form->isSubmitted() && $form->isValid()){
+
             // si formulaire ok, redirige vers la deuxième étape
             if($servCommande->validCommande($commande)){
 
@@ -76,8 +77,6 @@ class ReserveController extends Controller {
         // vérification du formulaire reçu
         // si formulaire ok, redirige vers l'étape pour le paiement
         if($form->isSubmitted() && $form->isValid()){
-            // mise à jour du nombre de tickets
-            $commande->setNbTicket(count($commande->getTickets()));
 
             if($servCommande->validCommande($commande)){
                 return $this->redirectToRoute('recap-commande');
@@ -104,13 +103,13 @@ class ReserveController extends Controller {
         // Récupération des informations concernant la commande rempli à l'étape 2
         $commande = $servCommande->initCommande();
 
+        // mets à jour les tickets dans la commande
+        $servCommande->updateTickets($commande);
+
         // si pb dans la commande, redirige à l'étape précédente
         if(!$servCommande->validCommande($commande)){
             return $this->redirectToRoute('info-ticket');
         }
-
-        // mets à jour les tickets dans la commande
-        $servCommande->updateTickets($commande);
 
         // création du formulaire pour saisie des info du client qui passe la commande
         $form = $this->get('form.factory')->create(CommandeType::class, $commande);

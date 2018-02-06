@@ -83,7 +83,7 @@ class Ticket
     private $pays;
 
     /**
-     * @ORM\ManyToOne(targetEntity="FC\ReservationBundle\Entity\Commande", inversedBy="billets")
+     * @ORM\ManyToOne(targetEntity="FC\ReservationBundle\Entity\Commande", inversedBy="tickets")
      * @ORM\JoinColumn(nullable=false)
      */
     private $commande;
