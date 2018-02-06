@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\TwigBundle\TwigEngine;
 use Doctrine\ORM\EntityManager;
 use Swift_Mailer;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class FCServCommande
 {
@@ -21,6 +22,10 @@ class FCServCommande
     private $mailer;
     private $templating;
     private $mailerFrom;
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    private $tickets;
 
     /**
      * FCServCommande constructor.
@@ -66,10 +71,14 @@ class FCServCommande
         // si la commande n'existe pas, on la créée
         if($commande === null){
             $commande = new Commande();
+
             $this->session->set('commande', $commande);
 
             // et si une ancienne référence de commande est en mémoire, on la supprime
             $this->session->remove('refCommande');
+
+            // initialise le nombre de ticket avant update à 0
+            $this->session->set('oldNbTicket', 0);
         }
 
         return $commande;
@@ -176,26 +185,51 @@ class FCServCommande
     public function updateNbTickets(Commande $commande){
         // on vérifie si la commande est déjà à jour par rapport au nombre de ticket
         $nbTickets = count($commande->getTickets());
-        $diffNbTickets = $commande->getNbTicket() - $nbTickets;
-        if($diffNbTickets === 0){
-            return;
-        }
+        $oldNbTicket = $this->session->get('oldNbTicket');
 
-        // si il manque des tickets dans la commande, on les ajoutes
-        if($diffNbTickets > 0){
-            for($i = 0; $i < $diffNbTickets; $i++){
-                $ticket = new Ticket();
-                $commande->addTicket($ticket);
+        // si c'est nbTicket qui change
+        if(
+            $commande->getNbTicket() != $oldNbTicket
+        )
+        {
+            $diffNbTickets = $commande->getNbTicket() - $nbTickets;
+
+            // si il manque des tickets dans la commande, on les ajoutes
+            if($diffNbTickets > 0){
+                for($i = 0; $i < $diffNbTickets; $i++){
+                    $ticket = new Ticket();
+                    $commande->addTicket($ticket);
+                }
+            }
+
+            // s'il y a des tickets en trop, les supprimes en partant du dernier
+            if($diffNbTickets < 0){
+                for ($j = 0; $j < -$diffNbTickets; $j++){
+                    $ticket = $commande->getTickets()[$nbTickets - (1 + $j)];
+                    $commande->removeTicket($ticket);
+                }
             }
         }
 
-        // s'il y a des tickets en trop, les supprimes en partant du dernier
-        if($diffNbTickets < 0){
-            for ($j = 0; $j < -$diffNbTickets; $j++){
-                $ticket = $commande->getTickets()[$nbTickets - (1 + $j)];
-                $commande->removeTicket($ticket);
+        // mets à jour les tickets en cas de changement dynamique
+        $tickets = $commande->getTickets();
+
+        // d'abord, ré index les tickets
+        $commande->setTickets(new ArrayCollection());
+
+        foreach ($tickets as $ticket){
+            // complète le ticket si la référence de la commande est manquante
+            if(!$ticket->getCommande()){
+                $ticket->setCommande($commande);
             }
+
+            // et ré insert le ticket dans la commande
+            $commande->addTicket($ticket);
         }
+
+        // reset les compteurs de tickets
+        $commande->setNbTicket(count($commande->getTickets()));
+        $this->session->set('oldNbTicket', $commande->getNbTicket());
     }
 
     /**
@@ -204,7 +238,7 @@ class FCServCommande
      */
     public function resetCommande(){
         $this->session->remove('commande');
-//        $this->initCommande();
+        $this->session->remove('oldNbTicket');
     }
 
     /**
