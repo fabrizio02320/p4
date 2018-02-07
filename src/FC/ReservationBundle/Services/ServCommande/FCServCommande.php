@@ -104,7 +104,9 @@ class FCServCommande
         // vérification sur les jours de fermeture récurrent
         $dateVisite = $commande->getDateVisite();
         $aujourdhui = new \DateTime("now", new \DateTimeZone('Europe/Paris'));
+        $messageFermeture = "Désolé, le Musée est fermé pour le jour que vous avez choisi, veuillez choisir une autre date.";
 
+        // vérif sur les jours interdits
         $jourInterdit = array(
             '01/01',
             '01/05',
@@ -114,17 +116,22 @@ class FCServCommande
             '01/11',
             '11/11',
             '25/12',
-            '27/12',
         );
-//        $dateInterdite = array(
-//            '02/04/2018',
-//            '10/05/2018',
-//            '21/05/2018',
-//        );
 
-        // vérif sur les jours interdits
         if(in_array($dateVisite->format('d/m'), $jourInterdit)){
-            $this->session->getFlashBag()->add('warning', "Désolé, le Musée est fermé pour le jour que vous avez choisi, veuillez choisir une autre date.");
+            $this->session->getFlashBag()->add('warning', $messageFermeture);
+            return false;
+        }
+
+        // verif sur des dates spécifiques
+        $dateInterdite = array(
+            '02/04/2018',
+            '10/05/2018',
+            '21/05/2018',
+        );
+
+        if(in_array($dateVisite->format('d/m/Y'), $dateInterdite)){
+            $this->session->getFlashBag()->add('warning', $messageFermeture);
             return false;
         }
 
@@ -139,6 +146,14 @@ class FCServCommande
                 $this->session->getFlashBag()->add('warning', "Vous ne pouvez pas choisir des tickets 'Journée' pour le jour-même après 14H00.");
                 return false;
             }
+        }
+
+        // verif sur les jours off
+        $jourOff = array(0, 2);
+
+        if(in_array($dateVisite->format('w'), $jourOff)){
+            $this->session->getFlashBag()->add('warning', "Il n'est pas possible de réserver pour un mardi ou un dimanche, veuillez changer la date de votre visite.");
+            return false;
         }
 
         return true;
