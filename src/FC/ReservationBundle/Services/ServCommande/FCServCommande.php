@@ -22,10 +22,6 @@ class FCServCommande
     private $mailer;
     private $templating;
     private $mailerFrom;
-    /**
-     * @var \Doctrine\Common\Collections\ArrayCollection
-     */
-    private $tickets;
 
     /**
      * FCServCommande constructor.
@@ -99,6 +95,10 @@ class FCServCommande
         return $commandeValid;
     }
 
+    /**
+     * @param Commande $commande
+     * @return bool
+     */
     public function validDate(Commande $commande)
     {
         // vérification sur les jours de fermeture récurrent
@@ -153,6 +153,12 @@ class FCServCommande
 
         if(in_array($dateVisite->format('w'), $jourOff)){
             $this->session->getFlashBag()->add('warning', "Il n'est pas possible de réserver pour un mardi ou un dimanche, veuillez changer la date de votre visite.");
+            return false;
+        }
+
+        // vérification sur un jour déjà passé
+        if($dateVisite->format('Ymd') < $aujourdhui->format('Ymd')){
+            $this->session->getFlashBag()->add('warning', "Il n'est pas possible de réserver pour un jour déjà passé, veuillez changer la date de votre visite.");
             return false;
         }
 
