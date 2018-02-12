@@ -31,7 +31,7 @@ class FCServCommandeTest extends WebTestCase
         $commande = new Commande();
 
         // test la fonction validDate sur une date valide
-        $commande->setDateVisite(\DateTime::createFromFormat('d/m/Y', '10/02/2018'));
+        $commande->setDateVisite(\DateTime::createFromFormat('d/m/Y', '04/03/2020'));
         $this->assertEquals(true, $this->servCommande->validDate($commande));
 
         // test la fonction validDate sur une date non autorisé (sur un mardi par ex.)

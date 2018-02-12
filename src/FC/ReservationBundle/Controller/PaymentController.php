@@ -12,6 +12,7 @@ class PaymentController extends Controller{
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Twig\Error\Error
      */
     public function paymentAction(Request $request){
         // récupération des outils d'une commande
@@ -31,7 +32,6 @@ class PaymentController extends Controller{
                 }
             }
         }
-
 
         return $this->render('FCReservationBundle:Payment:payment.html.twig', array(
             'commande' => $commande,

@@ -28,15 +28,6 @@ class FCServStripe
     public function charge(Request $request, Commande $commande){
         $token = $request->request->get('stripeToken');
 
-        // Charge the user's card:
-//        $charge = \Stripe\Charge::create(array(
-//            "amount" => 1000,
-//            "currency" => "usd",
-//            "description" => "Example charge",
-//            "capture" => false,
-//            "source" => $token,
-//        ));
-
         try{
             \Stripe\Charge::create(array(
                 "amount" => $commande->getPrix() * 100,
