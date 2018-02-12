@@ -1,0 +1,16 @@
+{% extends "FCReservationBundle::layout.html.twig" %}
+
+{% block title %}Erreur 404 | Billetterie du Louvre{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-offset-3 col-sm-6">
+            <h1 style="text-align: center"><strong>Erreur 404 : Page non trouvée...</strong></h1>
+            <h2 style="text-align: center">Désolé, la page demandée n'existe pas sur le site du musée du Louvre.</h2>
+            <br />
+            <a class="btn btn-success col-sm-offset-4 col-sm-4 col-xs-offset-3 col-xs-6" href="{{ path('home') }}">Retour à l'accueil</a>
+            <br />
+
+        </div>
+    </div>
+{% endblock %}
