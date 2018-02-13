@@ -1,0 +1,37 @@
+{% extends "FCReservationBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Informations Pratiques{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-offset-3 col-sm-6">
+
+            <legend>Informations pratiques</legend>
+            <p>
+                <strong>Musée du Louvre</strong><br />
+                75 058 Paris CEDEX 01<br />
+                France
+            </p>
+            <p>
+                <strong>Téléphone</strong><br />
+                +33 (0)1 40 20 50 50
+            </p>
+            <p>
+                <strong>Horaires</strong><br />
+                Ouvert tous les jours de 9H à 18H sauf le mardi<br />
+                Nocturnes jusqu'à 21H45 le mercredi et le vendredi
+            </p>
+            <p>
+                <strong>Fermetures</strong><br />
+                Fermé les mardis, 1er mai, 1er novembre et 25 décembre
+            </p>
+            <p>
+                <strong>Réservation</strong><br />
+                Il n'est pas possible de réserver les dimanches et les jours fériés<br />
+                Le nombre de réservation sur une journée est limité à 1000 entrées
+            </p>
+            <br />
+            <a class="btn btn-primary col-sm-offset-4 col-sm-4 col-xs-offset-3 col-xs-6" href="{{ path( route ) }}">Retour</a>
+        </div>
+    </div>
+{% endblock %}
