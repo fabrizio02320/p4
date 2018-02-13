@@ -5,6 +5,8 @@ namespace FC\ReservationBundle\Services\ServCommande;
 use FC\ReservationBundle\Entity\Commande;
 use FC\ReservationBundle\Entity\Ticket;
 use FC\ReservationBundle\Services\ServTickets\FCServTickets;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\TwigBundle\TwigEngine;
@@ -260,6 +262,7 @@ class FCServCommande
     public function resetCommande(){
         $this->session->remove('commande');
         $this->session->remove('oldNbTicket');
+        $this->session->remove('oldRoute');
     }
 
     /**
@@ -364,5 +367,32 @@ class FCServCommande
 
     public function getHeureDebDemiJournee(){
         return $this->heureDebDemiJournee;
+    }
+
+    public function referer(Request $request, Router $router){
+        // récupère le lien de référence
+        $ref = parse_url($request->headers->get('referer'),PHP_URL_PATH );
+
+        // retire la partie locale
+        $ref = str_replace("/p4/web/app_dev.php/", "/", $ref);
+        $ref = str_replace("/p4/web/app.php/", "/", $ref);
+
+        // récupère la route correspondante
+        $route = $router->match($ref)['_route'];
+
+        // si la session oldRoute n'existe pas, l'initialise à home
+        if(!$this->session->get('oldRoute')){
+            $this->session->set('oldRoute', 'home');
+        }
+
+        // s'il ne s'agit pas d'une page d'info, retient le lien en session
+        $dontGetRoute = ['info-global', 'info-tarif'];
+        if(!in_array($route, $dontGetRoute)){
+            $this->session->set('oldRoute', $route);
+        } else {
+            $route = $this->session->get('oldRoute');
+        }
+
+        return $route;
     }
 }
