@@ -150,4 +150,22 @@ class ReserveController extends Controller {
             'refCommande' => $refCommande,
         ));
     }
+
+    public function infoTarifAction(Request $request){
+        $servCommande = $this->get('fc_reserve.servcommande');
+        $route = $servCommande->referer($request, $this->container->get('router'));
+
+        return $this->render('@FCReservation/Reserve/infoTarif.html.twig', array(
+            'route' => $route,
+        ));
+    }
+
+    public function infoGlobalAction(Request $request){
+        $servCommande = $this->get('fc_reserve.servcommande');
+        $route = $servCommande->referer($request, $this->container->get('router'));
+
+        return $this->render('@FCReservation/Reserve/infoGlobal.html.twig', array(
+            'route' => $route,
+        ));
+    }
 }
