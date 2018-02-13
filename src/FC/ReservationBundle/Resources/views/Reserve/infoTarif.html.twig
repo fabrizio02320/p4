@@ -1,0 +1,28 @@
+{% extends "FCReservationBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Informations Tarifs{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-offset-3 col-sm-6">
+
+            <legend>Informations tarifs</legend>
+            <p>
+                Il y a deux type de tickets : le ticket "Journée" et le ticket "Demi-journée".<br />
+                Le ticket "Demi-journée" ne permet de rentrer qu'à partir de 14H, et les prix sont divisés par deux.
+            </p>
+            <p>Le musée propose plusieurs types de tarifs :</p>
+            <ul>
+                <li>Tarif normal : à partir de 12 ans pour 16 €</li>
+                <li>Tarif enfant : de 4 ans à 11 ans pour 8 €</li>
+                <li>Tarif gratuit : moins de 4 ans</li>
+                <li>Tarif sénior : à partir de 60 ans pour 12 €</li>
+                <li>Tarif réduit : accordé dans certaines conditions (étudiant, employé du musée,
+                            d’un service du Ministère de la Culture, militaire…) pour 10 €</li>
+            </ul>
+
+            <br />
+            <a class="btn btn-primary col-sm-offset-4 col-sm-4 col-xs-offset-3 col-xs-6" href="{{ path( route ) }}">Retour</a>
+        </div>
+    </div>
+{% endblock %}
