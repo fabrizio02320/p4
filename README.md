@@ -1,7 +1,11 @@
 OpenClassRooms Projet 4 - Développez un back-end pour un client
 ==
 
-Contexte
+**_Installation_**
+Mettez à jour vos dépendances avec la commande php composer.phar install.
+Puis mettez à jour le fichier /app/config/parameters.yml avec vos informations de connexion concernant SwiftMailer et Stripe.
+
+**_Contexte_**
 
 Le musée du Louvre vous a missionné pour un projet ambitieux : créer un nouveau système de réservation et de gestion des tickets en ligne pour diminuer les longues files d’attente et tirer parti de l’usage croissant des smartphones.
 Cahier des charges
