@@ -2,7 +2,7 @@
 * Menu et bandeau
  */
 .navbar{
-    background-color: rgba(178, 135, 73, 0.8);
+    background-color: rgba(178, 135, 73, 1);
     /*color: #000000;*/
 }
 
@@ -39,7 +39,7 @@
     /*background-size: cover;*/
     background-size: 100% 100%;
     height: 200px;
-    margin-top: 70px;
+    margin-top: 60px;
 }
 
 /*
@@ -51,16 +51,15 @@ body{
     background-size: cover;
 }
 
-.corps{
-    /*margin-top: 10px;*/
-    padding-top: 10px;
+.corps, footer{
+    background-color: rgba(178, 135, 73, 0.5);
+    padding-top: 0;
+    padding-bottom: 15px;
     margin-bottom: 15px;
 }
 
-.corps, footer{
-    background-color: rgba(178, 135, 73, 0.5);
-    padding-top: 15px;
-    padding-bottom: 15px;
+footer{
+    padding-top: 10px;
 }
 
 #contenu-principal, footer p{
@@ -69,7 +68,9 @@ body{
     margin-left: auto;
     margin-right: auto;
     padding-bottom: 15px;
-    padding-top: 10px;
+    padding-top: 15px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .table-recap-ticket{
@@ -81,31 +82,73 @@ body{
     padding: 5px;
 }
 
+#recapCommande{
+    text-align: center;
+}
+
+/*
+* Page info-ticket
+ */
+.ddn-form{
+    display: inline-flex;
+}
+
+/*.form-group i{*/
+    /*text-align: left;*/
+/*}*/
+
 /*
 * Responsive du site
  */
 
 @media all and (max-width: 768px){
     .jumbotron{
-        margin-left: -15px;
-        margin-right: -15px;
+        /*margin-left: -15px;*/
+        margin-left: 0;
+        /*margin-right: -15px;*/
+        margin-right: 0;
         margin-top: 50px;
         margin-bottom: 0;
         height: 150px;
+        /*padding: -5px*/
+        /*padding-left: 10px;*/
     }
 
     .corps, footer{
-        margin-left: -15px;
-        margin-right: -15px;
+        /*padding-left: 0;*/
+        /*padding-right: 0;*/
+        margin-left: 0;
+        margin-right: 0;
+        /*width: 100%;*/
+
+        padding: 5px;
+        /*background-color: transparent;*/
     }
 
-    #contenu-principal{
+    footer p{
         padding-left: 10px;
         padding-right: 10px;
         width: 100%;
+        margin: 0;
+
     }
 
-    body{
-        margin-right: 0;
+    #contenu-principal{
+        /*padding: 0;*/
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-bottom: 0;
+        margin-top: 0;
+        width: 100%;
+
     }
+
+    .container{
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    /*body{*/
+        /*margin-right: 0;*/
+    /*}*/
 }
