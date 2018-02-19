@@ -22,7 +22,7 @@
         <td>Age : {{ servTicket.age( ticket.ddn, commande.dateVisite ) }} ans</td>
     </tr>
     <tr>
-        <td>Pays de naissance : {{ ticket.pays|upper }}</td>
+        <td>Pays : {{ ticket.pays|upper }}</td>
         <td>Prix du ticket :
             <strong>
             {% if ticket.prix == 0 %}
