@@ -29,7 +29,7 @@
 <ul>
     {% for ticket in commande.tickets %}
     <li>
-        <p>{{ ticket.nom|upper }} {{ ticket.prenom|capitalize }}, né(e) le {{ ticket.ddn|date("d/m/Y") }}, montant du ticket : {{ ticket.prix }} euros.
+        <p>{{ ticket.nom|upper }} {{ ticket.prenom|capitalize }}, né(e) le {{ ticket.ddn|date("d/m/Y") }} ({{ servTickets.age(ticket.ddn, commande.dateVisite) }} ans), montant du ticket : {{ ticket.prix }} euros.
         {% if ticket.tarifReduit %}
             <i><strong>[Tarif réduit]</strong><br />Présentation d'un justificatif obligatoire à l'entrée du musée.</i>
         {% endif %}
