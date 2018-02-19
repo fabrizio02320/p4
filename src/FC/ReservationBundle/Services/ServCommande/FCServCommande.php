@@ -348,6 +348,7 @@ class FCServCommande
             'commande' => $commande,
             'heureDebDemiJournee' => $this->heureDebDemiJournee,
             'logoImage' => $logo,
+            'servTickets' => $this->servTickets,
         ));
 
         $mail

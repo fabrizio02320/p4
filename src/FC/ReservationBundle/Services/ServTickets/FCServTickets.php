@@ -95,7 +95,7 @@ class FCServTickets{
             $age = 0;
         } else {
             $age = $date->format('Y') - $ddn->format('Y');
-            if($ddn->format('md') < $date->format('md')){
+            if($ddn->format('md') > $date->format('md')){
                 $age -= 1;
             }
         }
