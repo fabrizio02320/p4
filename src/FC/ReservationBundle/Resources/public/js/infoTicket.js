@@ -2,21 +2,17 @@ $(document).ready(function(){
     // récupère les tickets
     var $listeTickets = $('.tickets');
 
-    console.log($listeTickets);
+    // console.log($listeTickets);
     // compte  de nombre de tickets existant
     var index = $listeTickets.length;
 
     // création du bouton d'ajout
     var btnAdd = $('<button id="add-ticket" class="btn btn-warning col-lg-offset-2 col-lg-4 col-xs-6">Ajouter un ticket</button>');
 
-    // ajout du bouton d'ajout juste avant le bouton suivant du formulaire
-    $('.commande-submit:first').before(btnAdd);
-
-    // modifie le comportement du bouton d'ajout
-    btnAdd.click(function(e){
-        e.preventDefault();
-        addTicket(index);
-    });
+    // ajout du bouton d'ajout juste avant le bouton suivant du formulaire (maxi 10 tickets dans notre config)
+    if(index < 10){
+        addBtnAddTicket();
+    }
 
     // modifie l'attribut id du ticket pour y accéder plus facilement et renumérote le texte
     for(var i = 0; i < index; i++){
@@ -58,6 +54,12 @@ $(document).ready(function(){
 
         // mets à jour le nb de tickets
         index ++;
+
+        // retire le bouton d'ajout si l'on a 10 tickets ou plus
+        if(index >= 10){
+            // $('.multi_ticket').find('.add')
+            btnAdd.remove();
+        }
     }
 
     function addBtnDelTicket($element){
@@ -86,7 +88,22 @@ $(document).ready(function(){
             if(index === 1){
                 $('.tickets').find('.del-ticket').remove();
             }
+
+            // retire le btn Add pour éviter de l'ajouter en boucle
+            btnAdd.remove();
+            // puis le réinsert
+            addBtnAddTicket();
         })
+    }
+
+    function addBtnAddTicket(){
+        $('.commande-submit:first').before(btnAdd);
+
+        // modifie le comportement du bouton d'ajout
+        btnAdd.click(function(e){
+            e.preventDefault();
+            addTicket(index);
+        });
     }
 
 });
