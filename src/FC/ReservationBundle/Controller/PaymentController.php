@@ -15,13 +15,19 @@ class PaymentController extends Controller{
      * @throws \Twig\Error\Error
      */
     public function paymentAction(Request $request){
+        // ici nous sommes à la 4ème étape
+
         // récupération des outils d'une commande
         $servCommande = $this->get('fc_reserve.servcommande');
 
         // Récupération de la commande
         $commande = $servCommande->initCommande();
 
-        if($request->isMethod('POST')){
+        if(!$servCommande->validCommande($commande, 4)) {
+            return $this->redirectToRoute('recap-commande');
+        }
+
+        if($request->isMethod('POST') && $servCommande->validCommande($commande, 4)){
             // on utilise le service Stripe, si paiement ok, on finalise la commande,
             // et on affiche un recap
             $servStripe = $this->get('fc_reserve.servstripe');
