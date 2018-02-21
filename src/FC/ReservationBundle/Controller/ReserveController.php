@@ -25,6 +25,8 @@ class ReserveController extends Controller {
     }
 
     public function infoVisiteAction(Request $request) {
+        // ici, nous sommes à la 1ere étape
+
         // récupération des outils d'une commande et l'initialise si nécessaire
         $servCommande = $this->get('fc_reserve.servcommande');
 
@@ -39,8 +41,7 @@ class ReserveController extends Controller {
         if($form->isSubmitted() && $form->isValid()){
 
             // si formulaire ok, redirige vers la deuxième étape
-            if($servCommande->validCommande($commande)){
-
+            if($servCommande->validCommande($commande, 1)){
                 return $this->redirectToRoute('info-ticket');
             }
         }
@@ -56,6 +57,8 @@ class ReserveController extends Controller {
      * Fonction utilisé pour la deuxième étape -
      */
     public function infoTicketAction(Request $request){
+        // 2eme étape
+
         // récupération des outils d'une commande
         $servCommande = $this->get('fc_reserve.servcommande');
 
@@ -63,7 +66,7 @@ class ReserveController extends Controller {
         $commande = $servCommande->initCommande();
 
         // si pb dans la commande, redirige à l'étape précédente
-        if(!$servCommande->validCommande($commande)){
+        if(!$servCommande->validCommande($commande, 1)){
             return $this->redirectToRoute('info-visite');
         }
 
@@ -78,7 +81,7 @@ class ReserveController extends Controller {
         // si formulaire ok, redirige vers l'étape pour le paiement
         if($form->isSubmitted() && $form->isValid()){
 
-            if($servCommande->validCommande($commande)){
+            if($servCommande->validCommande($commande, 2)){
                 return $this->redirectToRoute('recap-commande');
             }
 
@@ -94,9 +97,11 @@ class ReserveController extends Controller {
     }
 
     /*
-     * Fonction utilisé pour la troisième étape - Récapitulatif de la commande
+     * Fonction utilisé pour la troisième étape - Récapitulatif de la commande et info facturation
      */
     public function recapCommandeAction(Request $request){
+        // 3eme étape
+
         // récupération des outils d'une commande
         $servCommande = $this->get('fc_reserve.servcommande');
 
@@ -107,7 +112,7 @@ class ReserveController extends Controller {
         $servCommande->updateTickets($commande);
 
         // si pb dans la commande, redirige à l'étape précédente
-        if(!$servCommande->validCommande($commande)){
+        if(!$servCommande->validCommande($commande, 3)){
             return $this->redirectToRoute('info-ticket');
         }
 
@@ -118,7 +123,9 @@ class ReserveController extends Controller {
         // vérification du formulaire reçu
         // si formulaire ok, redirige vers l'étape pour le paiement
         if($form->isSubmitted() && $form->isValid()){
-            return $this->redirectToRoute('payment');
+            if($servCommande->validCommande($commande, 3)) {
+                return $this->redirectToRoute('payment');
+            }
         } else {
 
             // si pas de formulaire reçu ou si formulaire reçu pas ok,
@@ -134,16 +141,23 @@ class ReserveController extends Controller {
     }
 
     public function finCommandeAction(){
+        // 5eme étape
+
         // service commande
         $servCommande = $this->get('fc_reserve.servcommande');
+
+        $commande = $servCommande->initCommande();
 
         // récupère la référence de la commande
         $refCommande = $servCommande->getRefCommande();
 
         // si la commande n'est pas finalisé, la refCommande est null...
-        if($refCommande === null){
-            return $this->redirectToRoute('info-visite');
+        if($refCommande === null || !$servCommande->validCommande($commande, 4)){
+            return $this->redirectToRoute('payment');
         }
+
+        // la commande a été passé, on peut la ré initialiser
+        $servCommande->resetCommande();
 
         // page de fin de la commande
         return $this->render('@FCReservation/Reserve/finCommande.html.twig', array(

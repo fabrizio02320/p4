@@ -82,19 +82,22 @@ class FCServCommande
         return $commande;
     }
 
-    public function validCommande(Commande $commande)
+    public function validCommande(Commande $commande, $etape)
     {
-        // todo fonction à implémenter
-        $commandeValid = false;
+        // lorsque validCommande est appelé, la commande a été mis à jour en amont
 
-        // vérification de la date de la visite
-        if($this->validDate($commande) && $this->verifNbTicket($commande)){
-
-            $commandeValid = true;
-
+        // vérification de l'étape de la commande
+        if($etape > $this->getEtapeCommande($commande) && $etape != 1){
+            $this->session->getFlashBag()->add('warning', "Veuillez respecter les étapes de validation de la commande.");
+            return false;
         }
 
-        return $commandeValid;
+        // vérification de la date de la visite
+        if(!$this->validDate($commande) || !$this->verifNbTicket($commande)){
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -290,9 +293,6 @@ class FCServCommande
             // garde en session la ref de la commande
             $this->session->set('refCommande', $commande->getRef());
 
-            // nettoie les sessions commande et tickets
-            $this->resetCommande();
-
             return true;
         }
         catch(Exception $e){
@@ -395,5 +395,71 @@ class FCServCommande
         }
 
         return $route;
+    }
+
+    public function getEtapeCommande(Commande $commande){
+        /**
+         * En fonction des informations de la commande, détermine à quel étape se situe le visiteur
+         * 1 = choix de la visite
+         * 2 = compléter les tickets
+         * 3 = info facturation
+         * 4 = paiement
+         * 5 = commande effectué
+         */
+        $etape = 0;
+
+        // si une ref de commande est en session, on est à l'étape 5
+        if($this->session->get('refCommande')){
+            return 5;
+        }
+
+        // si commande pas rempli
+        if(!$commande->getDateVisite() ||
+            !$commande->getNbTicket() ||
+            !$commande->getDemiJournee()
+        )
+        {
+            return 1;
+        }
+
+        // si nb ticket pas respecté
+        $nbTicket = $commande->getNbTicket();
+        $cNbTicket = count($commande->getTickets());
+        if($nbTicket <= 0 ||
+            $nbTicket > 10 ||
+            $cNbTicket <= 0 ||
+            $cNbTicket > 10
+        )
+        {
+            return 1;
+        }
+
+        // sinon, si manque info ticket
+        $tickets = $commande->getTickets();
+        foreach ($tickets as $ticket){
+            if(!$ticket->getNom() ||
+                !$ticket->getPrenom() ||
+                !$ticket->getDdn() ||
+                !$ticket->getPays()
+            )
+            {
+                return 2;
+            }
+        }
+
+        // si manque info facturation
+        if(!$commande->getNom() ||
+            !$commande->getPrenom() ||
+            !$commande->getCiv() ||
+            !$commande->getCourriel()
+        )
+        {
+            return 3;
+        }
+
+        // arrivé après tous ces test, nous sommes à l'étape 4
+        $etape = 4;
+
+        return $etape;
     }
 }
