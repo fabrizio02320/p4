@@ -81,7 +81,11 @@ class ReserveController extends Controller {
         // si formulaire ok, redirige vers l'étape pour le paiement
         if($form->isSubmitted() && $form->isValid()){
 
+//            echo 'getEtape : '. $servCommande->getEtapeCommande($commande);
+//            echo '<br />Etape indiqué dans la fonction : 2';
+//            die;
             if($servCommande->validCommande($commande, 2)){
+
                 return $this->redirectToRoute('recap-commande');
             }
 

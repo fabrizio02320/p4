@@ -415,10 +415,10 @@ class FCServCommande
 
         // si commande pas rempli
         if(!$commande->getDateVisite() ||
-            !$commande->getNbTicket() ||
-            !$commande->getDemiJournee()
+            !$commande->getNbTicket()
         )
         {
+//            $this->session->getFlashBag()->add('warning', "Les informations de la visite ne sont pas renseignées.");
             return 1;
         }
 
@@ -431,18 +431,20 @@ class FCServCommande
             $cNbTicket > 10
         )
         {
+//            $this->session->getFlashBag()->add('warning', "Le nombre de ticket n\'est pas respecté.");
             return 1;
         }
 
         // sinon, si manque info ticket
         $tickets = $commande->getTickets();
-        foreach ($tickets as $ticket){
+        foreach ($tickets as $index => $ticket){
             if(!$ticket->getNom() ||
                 !$ticket->getPrenom() ||
                 !$ticket->getDdn() ||
                 !$ticket->getPays()
             )
             {
+//                $this->session->getFlashBag()->add('warning', "Il manque des informations dans le ticket n°". $index .".");
                 return 2;
             }
         }
@@ -454,6 +456,7 @@ class FCServCommande
             !$commande->getCourriel()
         )
         {
+//            $this->session->getFlashBag()->add('warning', "Les informations de facturation ne sont pas renseignées.");
             return 3;
         }
 
